@@ -7,8 +7,10 @@ public class T1 {
     public static void main(String[] args)
     {
 
-            System.out.println(args);
-
+    if (args.length > 0) {
+        // Obtener el primer argumento proporcionado en la lÃ­nea de comandos
+        String primerArgumento = args[0];
+        
         Scanner sc = new Scanner(System.in);
         String expresion=sc.nextLine();
 
@@ -33,6 +35,12 @@ public class T1 {
 
         Automata resultado_afd = afd.getAfd();        
         System.out.println(resultado_afd);
+        
+        // Resto de tu cÃ³digo...
+    } else {
+        // Si no se proporcionan argumentos, imprimir un mensaje de error
+        System.out.println("No se proporcionaron argumentos.");
+    }
     }
     
 }
