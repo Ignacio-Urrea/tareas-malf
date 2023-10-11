@@ -6,7 +6,7 @@ import java.util.HashSet;
  * @author Ignacio Urrea
  */
 
-// en base a esta clase haremos los afd y afnd
+// en base a esta clase crearemos los afd y afnd
 public class Automata {
     private Estado inicial;
     private ArrayList<Estado> aceptacion;

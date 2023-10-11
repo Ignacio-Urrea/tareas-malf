@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
 public class AFND {
     private Automata automata;
     private String expresionRegular;
@@ -14,6 +18,7 @@ public class AFND {
         Stack<Automata> pilaAFND = new Stack<>();
 
         Automata primerAutomata, kleeneAutomata;
+
         Automata segundoAutomata;
         for (int i = 0; i < this.expresionRegular.length(); i++) {
             char c = this.expresionRegular.charAt(i);

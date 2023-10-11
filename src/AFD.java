@@ -4,17 +4,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-/**
- * @author Juan Nuñez
- * @author Ignacio Urrea
- */
-
 public class AFD {
-    private Automata afd;
+    private Automata automataDeterministico;
     private final Simulador simulador;
 
     public AFD() {
-        this.afd = new Automata();
+        this.automataDeterministico = new Automata();
         this.simulador = new Simulador();
     }
 
@@ -70,19 +65,13 @@ public class AFD {
             indexEstadoInicio++;
         }
 
-        this.afd = automata;
+        this.automataDeterministico = automata;
         definirAlfabeto(afnd);
-        this.afd.setTipo("AFD");
+        this.automataDeterministico.setTipo("AFD");
     }
 
-    /**
-     * Método para quitar los estados de trampa de un autómata
-     * 
-     * @param afd
-     * @return AFD con menos estados
-     */
     public Automata quitarEstadosTrampa(Automata afd) {
-        ArrayList<Estado> estadoAQuitar = new ArrayList();
+        ArrayList<Estado> estadosAQuitar = new ArrayList();
         for (int i = 0; i < afd.getEstados().size(); i++) {
             int verificarCantidadTransiciones = afd.getEstados().get(i).getTransiciones().size();
             int contadorTransiciones = 0;
@@ -94,17 +83,17 @@ public class AFD {
             }
             if (verificarCantidadTransiciones == contadorTransiciones && contadorTransiciones != 0) {
 
-                estadoAQuitar.add(afd.getEstados().get(i));
+                estadosAQuitar.add(afd.getEstados().get(i));
             }
 
         }
-        for (int i = 0; i < estadoAQuitar.size(); i++) {
+        for (int i = 0; i < estadosAQuitar.size(); i++) {
             for (int j = 0; j < afd.getEstados().size(); j++) {
                 ArrayList<Transicion> arrayT = afd.getEstados().get(j).getTransiciones();
                 int cont = 0;
                 while (arrayT.size() > cont) {
                     Transicion t = arrayT.get(cont);
-                    if (t.getFin() == estadoAQuitar.get(i)) {
+                    if (t.getFin() == estadosAQuitar.get(i)) {
                         afd.getEstados().get(j).getTransiciones().remove(t);
                         cont--;
                     }
@@ -112,7 +101,7 @@ public class AFD {
 
                 }
             }
-            afd.getEstados().remove(estadoAQuitar.get(i));
+            afd.getEstados().remove(estadosAQuitar.get(i));
         }
         for (int i = 0; i < afd.getEstados().size(); i++) {
             afd.getEstados().get(i).setId(i);
@@ -123,28 +112,23 @@ public class AFD {
 
     public void agregarSignoAlfabetoGeneral() {
         Stack<Transicion> transiciones = new Stack();
-        for (int i = afd.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
-            transiciones.push(afd.getInicial().getTransiciones().remove(i));
+        for (int i = automataDeterministico.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
+            transiciones.push(automataDeterministico.getInicial().getTransiciones().remove(i));
         }
 
-        Transicion tran = new Transicion(afd.getInicial(), afd.getInicial(), "#");
-        afd.getInicial().addTransiciones(tran);
+        Transicion tran = new Transicion(automataDeterministico.getInicial(), automataDeterministico.getInicial(), "#");
+        automataDeterministico.getInicial().addTransiciones(tran);
 
         while (!transiciones.isEmpty()) {
-            afd.getInicial().addTransiciones((Transicion) transiciones.pop());
+            automataDeterministico.getInicial().addTransiciones((Transicion) transiciones.pop());
         }
     }
 
-    /**
-     * Copiar el alfabeto del AFN al AFD
-     * 
-     * @param afn
-     */
     private void definirAlfabeto(Automata afn) {
-        this.afd.setAlfabeto(afn.getAlfabeto());
+        this.automataDeterministico.setAlfabeto(afn.getAlfabeto());
     }
 
-    public Automata getAfd() {
-        return afd;
+    public Automata getAutomataDeterministico() {
+        return automataDeterministico;
     }
 }

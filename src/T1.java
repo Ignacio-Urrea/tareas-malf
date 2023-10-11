@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 /**
  * @author Juan Nuñez
  * @author Ignacio Urrea
@@ -29,13 +27,11 @@ public class T1 {
             afd.convertirAFND_AFD(resultado_afnd);
             afd.agregarSignoAlfabetoGeneral();
 
-            Automata resultado_afd = afd.getAfd();
+            Automata resultado_afd = afd.getAutomataDeterministico();
             System.out.println(resultado_afd);
 
-            // Resto de tu cÃ³digo...
         } else {
-            // Si no se proporcionan argumentos, imprimir un mensaje de error
-            System.out.println("debes entregar una er en los argumentos");
+            System.out.println("debes entregar una expresion regular en los argumentos (EJEMPLO: java T1 a.b.c)");
         }
     }
 
