@@ -2,272 +2,230 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
-/**
- * @author Gerardo Estrada
- * @author Pedro González
- */
-public class AFND
-{
-    private Automata afnd;
+public class AFND {
+    private Automata automata;
     private String expresionRegular;
 
-    public AFND(String expresionRegular)
-    {
+    public AFND(String expresionRegular) {
         this.expresionRegular = expresionRegular;
     }
-    
-    public void construirAFND()
-    {
-        Stack pilaAFND = new Stack();
-        Automata afnd1,afnd2, kleene;
-        
-        for(int i=0; i<this.expresionRegular.length();i++)
-        {
+
+    public void crearAFND() {
+        Stack<Automata> pilaAFND = new Stack<>();
+
+        Automata primerAutomata, kleeneAutomata;
+        Automata segundoAutomata;
+        for (int i = 0; i < this.expresionRegular.length(); i++) {
             char c = this.expresionRegular.charAt(i);
-            switch(c)
-            {
-                case '*':
-                    kleene = clausuraKleene((Automata) pilaAFND.pop());
-                    pilaAFND.push(kleene);
-                    this.afnd=kleene;
-                    break;
-                case  '.':
-                    afnd1 = (Automata) pilaAFND.pop();
-                    afnd2 = (Automata) pilaAFND.pop();
-                    Automata concat_result = afndConcatenacion(afnd1,afnd2);
-                   
-                    pilaAFND.push(concat_result);
-                    this.afnd=concat_result;
-                    break;
-                case '|':
-                    afnd1 = (Automata) pilaAFND.pop();
-                    afnd2 = (Automata) pilaAFND.pop();
-                    Automata union = afndUnion(afnd1, afnd2);
-                    pilaAFND.push(union);
-                    this.afnd = union;                    
-                    break;
-                case '~':
-                    Automata afndVacio = afndVacio();
-                    pilaAFND.push(afndVacio);
-                    this.afnd = afndVacio;
-                    break;
-                    
-                default: 
-                    Automata afndSimple = afndSimple(c);
-                    pilaAFND.push(afndSimple);
-                    this.afnd = afndSimple;
+            if (c == '*') {
+                kleeneAutomata = clausuraKleene(pilaAFND.pop());
+                pilaAFND.push(kleeneAutomata);
+                this.automata = kleeneAutomata;
+            } else if (c == '.') {
+                primerAutomata = pilaAFND.pop();
+                segundoAutomata = pilaAFND.pop();
+                Automata concatenacionAutomata = afndConcatenacion(primerAutomata, segundoAutomata);
+                pilaAFND.push(concatenacionAutomata);
+                this.automata = concatenacionAutomata;
+            } else if (c == '|') {
+                primerAutomata = pilaAFND.pop();
+                segundoAutomata = pilaAFND.pop();
+                Automata unionAutomata = afndUnion(primerAutomata, segundoAutomata);
+                pilaAFND.push(unionAutomata);
+                this.automata = unionAutomata;
+            } else if (c == '~') {
+                Automata afndVacio = afndVacio();
+                pilaAFND.push(afndVacio);
+                this.automata = afndVacio;
+            } else {
+                Automata afndSimple = afndSimple(c);
+                pilaAFND.push(afndSimple);
+                this.automata = afndSimple;
             }
         }
-        
-        this.afnd.crearAlfabeto(expresionRegular);
-        this.afnd.setTipo("AFND");
-    }
-    
-    public Automata afndSimple(char elemento)
-    {
-        
-        Automata afndAux = new Automata();
-        Estado inicio = new Estado(0);
-        Estado fin = new Estado(1);
-        Transicion tran= new Transicion(inicio, fin, String.valueOf(elemento));
-        inicio.addTransiciones(tran); 
-        afndAux.addEstados(inicio);
-        afndAux.addEstados(fin);
-   
-        afndAux.setInicial(inicio);
-        afndAux.addEstadosAceptacion(fin);
-        return afndAux;
 
+        this.automata.crearAlfabeto(expresionRegular);
+        this.automata.setTipo("AFND");
     }
-    
-    public Automata afndVacio()
-    {
-        Automata afndAux = new Automata();
+
+    public Automata afndSimple(char elemento) {
+        Automata automataAux = new Automata();
         Estado inicio = new Estado(0);
         Estado fin = new Estado(1);
-        afndAux.addEstados(inicio);
-        afndAux.addEstados(fin);   
-        afndAux.setInicial(inicio);
-        afndAux.addEstadosAceptacion(fin);
-        return afndAux;
-    }
-    
-    public Automata afndUnion(Automata afnd1, Automata afnd2)
-    {
-        Automata union = new Automata();
-        Estado inicio = new Estado(0);
-        
-        Transicion tran = new Transicion(inicio, afnd2.getInicial(), "_");
-        
+        Transicion tran = new Transicion(inicio, fin, String.valueOf(elemento));
         inicio.addTransiciones(tran);
-        
-        union.addEstados(inicio);
-        union.setInicial(inicio);
-        
+        automataAux.addEstados(inicio);
+        automataAux.addEstados(fin);
+
+        automataAux.setInicial(inicio);
+        automataAux.addEstadosAceptacion(fin);
+        return automataAux;
+    }
+
+    public Automata afndVacio() {
+        Automata automataAux = new Automata();
+        Estado inicio = new Estado(0);
+        Estado fin = new Estado(1);
+        automataAux.addEstados(inicio);
+        automataAux.addEstados(fin);
+        automataAux.setInicial(inicio);
+        automataAux.addEstadosAceptacion(fin);
+        return automataAux;
+    }
+
+    public Automata afndUnion(Automata primerAutomata, Automata segundoAutomata) {
+        Automata unionAutomata = new Automata();
+        Estado inicio = new Estado(0);
+
+        Transicion tran = new Transicion(inicio, segundoAutomata.getInicial(), "_");
+
+        inicio.addTransiciones(tran);
+
+        unionAutomata.addEstados(inicio);
+        unionAutomata.setInicial(inicio);
+
         int i;
 
-        for(i=0;i<afnd1.getEstados().size();i++)
-        {
-            Estado estadoAux = afnd1.getEstados().get(i);
-            estadoAux.setId(i+1);
-            union.addEstados(estadoAux);
+        for (i = 0; i < primerAutomata.getEstados().size(); i++) {
+            Estado estadoAux = primerAutomata.getEstados().get(i);
+            estadoAux.setId(i + 1);
+            unionAutomata.addEstados(estadoAux);
         }
-        
-        for(int j=0;j<afnd2.getEstados().size();j++)
-        {
-            Estado estadoAux = afnd2.getEstados().get(j);
-            estadoAux.setId(i+1);
-            union.addEstados(estadoAux);
+
+        for (int j = 0; j < segundoAutomata.getEstados().size(); j++) {
+            Estado estadoAux = segundoAutomata.getEstados().get(j);
+            estadoAux.setId(i + 1);
+            unionAutomata.addEstados(estadoAux);
             i++;
         }
-        
-        Estado fin = new Estado(afnd1.getEstados().size() + afnd2.getEstados().size() + 1);
-        union.addEstados(fin);
-        union.addEstadosAceptacion(fin);
-        
-        Estado anteriorInicio = afnd1.getInicial();
-        ArrayList<Estado> anteriorFin = afnd1.getEstadosAceptacion();
-        ArrayList<Estado> anteriorFin2 = afnd2.getEstadosAceptacion();
-        
+
+        Estado fin = new Estado(primerAutomata.getEstados().size() + segundoAutomata.getEstados().size() + 1);
+        unionAutomata.addEstados(fin);
+        unionAutomata.addEstadosAceptacion(fin);
+
+        Estado anteriorInicio = primerAutomata.getInicial();
+        ArrayList<Estado> anteriorFin = primerAutomata.getEstadosAceptacion();
+        ArrayList<Estado> anteriorFin2 = segundoAutomata.getEstadosAceptacion();
+
         Transicion tranAux = new Transicion(inicio, anteriorInicio, "_");
         inicio.getTransiciones().add(tranAux);
-        
-        for (int k =0; k<anteriorFin.size();k++)
-        {
+
+        for (int k = 0; k < anteriorFin.size(); k++) {
             tranAux = new Transicion(anteriorFin.get(k), fin, "_");
             anteriorFin.get(k).getTransiciones().add(tranAux);
         }
-        
-        for (int k =0; k<anteriorFin2.size();k++)
-        {
-            tranAux = new Transicion(anteriorFin2.get(k),fin,"_");
+
+        for (int k = 0; k < anteriorFin2.size(); k++) {
+            tranAux = new Transicion(anteriorFin2.get(k), fin, "_");
             anteriorFin2.get(k).getTransiciones().add(tranAux);
         }
-        
-        HashSet alfabeto = new HashSet();
-        alfabeto.addAll(afnd1.getAlfabeto());
-        alfabeto.addAll(afnd2.getAlfabeto());
-        union.setAlfabeto(alfabeto);
-        
-        return union;
+
+        HashSet<String> alfabeto = new HashSet<>();
+        alfabeto.addAll(primerAutomata.getAlfabeto());
+        alfabeto.addAll(segundoAutomata.getAlfabeto());
+        unionAutomata.setAlfabeto(alfabeto);
+
+        return unionAutomata;
     }
-    
-    public Automata afndConcatenacion(Automata afnd1, Automata afnd2)
-    {
-        Automata concatenacion = new Automata();        
+
+    public Automata afndConcatenacion(Automata primerAutomata, Automata segundoAutomata) {
+        Automata concatenacionAutomata = new Automata();
         int i;
-        for (i = 0;  i<afnd2.getEstados().size() ; i++)
-        {
-            Estado estadoAux = afnd2.getEstados().get(i);
+        for (i = 0; i < segundoAutomata.getEstados().size(); i++) {
+            Estado estadoAux = segundoAutomata.getEstados().get(i);
             estadoAux.setId(i);
-            
-            if(i==0)
-            {
-                concatenacion.setInicial(estadoAux);
+
+            if (i == 0) {
+                concatenacionAutomata.setInicial(estadoAux);
             }
-            
-            if (i == afnd2.getEstados().size()-1)
-            {
-                for (int j = 0; j<afnd2.getEstadosAceptacion().size();j++)
-                {
-                    Transicion tranAux = new Transicion(afnd2.getEstadosAceptacion().get(j), afnd1.getInicial(), "_");
+
+            if (i == segundoAutomata.getEstados().size() - 1) {
+                for (int j = 0; j < segundoAutomata.getEstadosAceptacion().size(); j++) {
+                    Transicion tranAux = new Transicion(segundoAutomata.getEstadosAceptacion().get(j),
+                            primerAutomata.getInicial(), "_");
                     estadoAux.addTransiciones(tranAux);
                 }
             }
-            concatenacion.addEstados(estadoAux);
+            concatenacionAutomata.addEstados(estadoAux);
         }
-        
-        for (int j =0;j<afnd1.getEstados().size();j++)
-        {
-            Estado estadoAux = (Estado) afnd1.getEstados().get(j);
-            
+
+        for (int j = 0; j < primerAutomata.getEstados().size(); j++) {
+            Estado estadoAux = primerAutomata.getEstados().get(j);
             estadoAux.setId(i);
 
-            if (afnd1.getEstados().size()-1==j)
-            {
-                concatenacion.addEstadosAceptacion(estadoAux);
+            if (primerAutomata.getEstados().size() - 1 == j) {
+                concatenacionAutomata.addEstadosAceptacion(estadoAux);
             }
-            concatenacion.addEstados(estadoAux);
+            concatenacionAutomata.addEstados(estadoAux);
             i++;
         }
-       
-        HashSet alfabeto = new HashSet();
-        alfabeto.addAll(afnd1.getAlfabeto());
-        alfabeto.addAll(afnd2.getAlfabeto());
-        concatenacion.setAlfabeto(alfabeto);
-        
-        return concatenacion;
+
+        HashSet<String> alfabeto = new HashSet<>();
+        alfabeto.addAll(primerAutomata.getAlfabeto());
+        alfabeto.addAll(segundoAutomata.getAlfabeto());
+        concatenacionAutomata.setAlfabeto(alfabeto);
+
+        return concatenacionAutomata;
     }
 
-    private Automata clausuraKleene(Automata afnd)
-    {
-        Automata kleene = new Automata();
-        
+    private Automata clausuraKleene(Automata afnd) {
+        Automata kleeneAutomata = new Automata();
+
         Estado inicio = new Estado(0);
-        kleene.addEstados(inicio);
-        kleene.setInicial(inicio);
-        
-        for (int i = 0; i < afnd.getEstados().size(); i++)
-        {
-            Estado estadoAux = afnd.getEstados().get(i);           
-            estadoAux.setId(i+1);
-            kleene.addEstados(estadoAux);
+        kleeneAutomata.addEstados(inicio);
+        kleeneAutomata.setInicial(inicio);
+
+        for (int i = 0; i < afnd.getEstados().size(); i++) {
+            Estado estadoAux = afnd.getEstados().get(i);
+            estadoAux.setId(i + 1);
+            kleeneAutomata.addEstados(estadoAux);
         }
-        
-        Estado fin = new Estado(afnd.getEstados().size()+1);
-        kleene.addEstados(fin);
-        kleene.addEstadosAceptacion(fin);
-        
-        Estado inicioAnterior = afnd.getInicial();        
+
+        Estado fin = new Estado(afnd.getEstados().size() + 1);
+        kleeneAutomata.addEstados(fin);
+        kleeneAutomata.addEstadosAceptacion(fin);
+
+        Estado inicioAnterior = afnd.getInicial();
         ArrayList<Estado> finAnterior = afnd.getEstadosAceptacion();
-        
+
         inicio.getTransiciones().add(new Transicion(inicio, inicioAnterior, "_"));
         inicio.getTransiciones().add(new Transicion(inicio, fin, "_"));
-        
-        for (int i =0; i<finAnterior.size();i++){
+
+        for (int i = 0; i < finAnterior.size(); i++) {
             finAnterior.get(i).getTransiciones().add(new Transicion(finAnterior.get(i), inicioAnterior, "_"));
             finAnterior.get(i).getTransiciones().add(new Transicion(finAnterior.get(i), fin, "_"));
         }
-        kleene.setAlfabeto(afnd.getAlfabeto());
-        return kleene;
+        kleeneAutomata.setAlfabeto(afnd.getAlfabeto());
+        return kleeneAutomata;
     }
 
-    public void agregarSignoAlfabetoGeneral()
-    {     
-        Stack<Transicion> transiciones = new Stack();
-        for(int i=afnd.getInicial().getTransiciones().size()-1; i>=0;i--)
-        {
-            transiciones.push(afnd.getInicial().getTransiciones().remove(i));
+    public void agregarSignoAlfabetoGeneral() {
+        Stack<Transicion> transiciones = new Stack<>();
+        for (int i = automata.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
+            transiciones.push(automata.getInicial().getTransiciones().remove(i));
         }
-        
-        Transicion tran = new Transicion(afnd.getInicial(), afnd.getInicial(), "#");
-        afnd.getInicial().addTransiciones(tran);
-        
-        while(!transiciones.isEmpty())
-        {
-            afnd.getInicial().addTransiciones((Transicion) transiciones.pop());
+
+        Transicion tran = new Transicion(automata.getInicial(), automata.getInicial(), "#");
+        automata.getInicial().addTransiciones(tran);
+
+        while (!transiciones.isEmpty()) {
+            automata.getInicial().addTransiciones(transiciones.pop());
         }
     }
-    
-    public Automata getAfnd()
-    {
-        return afnd;
+
+    public Automata getAutomata() {
+        return automata;
     }
 
-    public void setAfnd(Automata afnd)
-    {
-        this.afnd = afnd;
+    public void setAutomata(Automata automata) {
+        this.automata = automata;
     }
 
-    public String getExpresionRegular()
-    {
+    public String getExpresionRegular() {
         return expresionRegular;
     }
 
-    public void setExpresionRegular(String expresionRegular)
-    {
+    public void setExpresionRegular(String expresionRegular) {
         this.expresionRegular = expresionRegular;
     }
-    
-    
 }

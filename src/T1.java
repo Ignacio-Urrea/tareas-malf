@@ -1,24 +1,26 @@
 import java.util.Scanner;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class T1 {
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
 
         if (args.length > 0) {
-            // Obtener el primer argumento proporcionado en la lÃ­nea de comandos
             String expresion = args[0];
 
             Convertidor convertidor = new Convertidor();
-            expresion = convertidor.conversor(expresion);
+            expresion = convertidor.convertir(expresion);
 
             AFND algoritmoThomson = new AFND(expresion);
 
-            algoritmoThomson.construirAFND();
-            // AFND resultante
+            algoritmoThomson.crearAFND();
+
+            // afnd
             algoritmoThomson.agregarSignoAlfabetoGeneral();
-            Automata resultado_afnd = algoritmoThomson.getAfnd();
+            Automata resultado_afnd = algoritmoThomson.getAutomata();
 
             System.out.println(resultado_afnd);
 
@@ -33,7 +35,7 @@ public class T1 {
             // Resto de tu cÃ³digo...
         } else {
             // Si no se proporcionan argumentos, imprimir un mensaje de error
-            System.out.println("No se proporcionaron argumentos.");
+            System.out.println("debes entregar una er en los argumentos");
         }
     }
 

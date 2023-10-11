@@ -1,91 +1,70 @@
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-public class Convertidor
-{
-    private  Map<Character, Integer> precedenciaOperadores;
-        
-    public Convertidor()
-    {
-        Map<Character, Integer> map = new HashMap<>();
-        map.put('(', 1); // parentesis
-        map.put('|', 2); // Unión
-        map.put('.', 3); // Concatenación
-        map.put('*', 4); // Operador Clausura de Kleene
-        precedenciaOperadores = Collections.unmodifiableMap(map);
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
+public class Convertidor {
+    private Map<Character, Integer> precedencia_operadores;
+
+    public Convertidor() {
+        // operadores y precedencias
+        Map<Character, Integer> mapa = new HashMap<>();
+        mapa.put('(', 1);
+        mapa.put('|', 2);
+        mapa.put('.', 3);
+        mapa.put('*', 4);
+        precedencia_operadores = Collections.unmodifiableMap(mapa);
     }
-    
-    /**
-    * Obtener la precedencia del caracter
-    * 
-    * @param c character
-    * @return corresponding precedence
-    */
-    private Integer getPrecedencia(Character c) 
-    {
-        Integer precedencia = precedenciaOperadores.get(c);
-        if(precedencia==null)
-        {
-            precedencia=6;
+
+    // precedencia de cada caracter
+    private Integer obtenerPrecedencia(Character c) {
+        Integer precedencia = precedencia_operadores.get(c);
+        if (precedencia == null) {
+            precedencia = 6; // Precedencia por defecto
         }
         return precedencia;
     }
-    
-    /**
-    * Convertir una expresión regular 
-    * 
-    * @param expresion notacion infijo 
-    * @return notacion postfijo
-    */
-    public String conversor(String expresion) 
-    {
-        String postfix = new String();
-        Stack<Character> stack = new Stack<>();
 
-        for (Character c : expresion.toCharArray()) 
-        {
-            switch (c) 
-            {
+    // Convierte er a su posfijo
+    public String convertir(String expresion) {
+        String posfija = new String();
+        Stack<Character> pila = new Stack<>();
+
+        for (Character c : expresion.toCharArray()) {
+            switch (c) {
                 case '(':
-                    stack.push(c);
+                    pila.push(c);
                     break;
                 case ')':
-                    while (!stack.peek().equals('(')) 
-                    {
-                        postfix += stack.pop();
+                    while (!pila.peek().equals('(')) {
+                        posfija += pila.pop();
                     }
-                    stack.pop();
+                    pila.pop();
                     break;
                 default:
-                    while (stack.size() > 0) 
-                    {
-                        Character peekedChar = stack.peek();
-                        Integer peekedCharPrecedence = getPrecedencia(peekedChar);
-                        Integer currentCharPrecedence = getPrecedencia(c);
-                        if (peekedCharPrecedence >= currentCharPrecedence) 
-                        {
-                            postfix += stack.pop();
-
-                        } 
-                        else 
-                        {
+                    while (!pila.isEmpty()) {
+                        Character caracterEnCima = pila.peek();
+                        Integer precedenciaCaracterEnCima = obtenerPrecedencia(caracterEnCima);
+                        Integer precedenciaCaracterActual = obtenerPrecedencia(c);
+                        if (precedenciaCaracterEnCima >= precedenciaCaracterActual) {
+                            posfija += pila.pop();
+                        } else {
                             break;
                         }
                     }
-                    stack.push(c);
+                    pila.push(c);
                     break;
             }
-
         }
-        while (stack.size() > 0)
-        {
-            postfix += stack.pop();
 
+        while (!pila.isEmpty()) {
+            posfija += pila.pop();
         }
-        return postfix;
-    }    
+        return posfija;
+    }
 }

@@ -1,50 +1,38 @@
 import java.util.ArrayList;
 
-/**
- * @author Gerardo Estrada
- * @author Pedro González
- */
-public class Estado
-{
+//representa un estado en un autómata
+public class Estado {
     private int id;
     private ArrayList<Transicion> transiciones = new ArrayList();
 
-    public Estado(int id)
-    {
+    public Estado(int id) {
         this.id = id;
     }
 
-    public Estado(int id, ArrayList<Transicion> transiciones)
-    {
+    // para inicializar con las trnasiciones
+    public Estado(int id, ArrayList<Transicion> transiciones) {
         this.id = id;
         this.transiciones = transiciones;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public ArrayList<Transicion> getTransiciones()
-    {
+    public ArrayList<Transicion> getTransiciones() {
         return transiciones;
     }
 
-    public boolean addTransiciones(Transicion e)
-    {
+    public boolean addTransiciones(Transicion e) {
         return transiciones.add(e);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.valueOf(this.id);
     }
-    
-    
 }
