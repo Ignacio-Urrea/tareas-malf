@@ -8,12 +8,12 @@ import java.util.Stack;
  * @author Ignacio Urrea
  */
 
-public class Simulador {
+public class AutomataProcessor {
     Estado inicial;
     ArrayList<Estado> aceptacion;
     HashSet<Estado> conjunto;
 
-    public Simulador() {
+    public AutomataProcessor() {
     }
 
     public HashSet<Estado> eClosure(Estado eClosureEstado) {

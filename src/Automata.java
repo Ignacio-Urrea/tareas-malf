@@ -8,11 +8,11 @@ import java.util.HashSet;
 
 // en base a esta clase crearemos los afd y afnd
 public class Automata {
-    private Estado inicial;
-    private ArrayList<Estado> aceptacion;
-    private ArrayList<Estado> estados;
-    private HashSet alfabeto;
-    private String tipo;
+    HashSet alfabeto;
+    String tipo;
+    ArrayList<Estado> aceptacion;
+    ArrayList<Estado> estados;
+    Estado inicial;
 
     public Automata() {
         this.estados = new ArrayList();
@@ -20,59 +20,11 @@ public class Automata {
         this.alfabeto = new HashSet();
     }
 
-    public Estado getInicial() {
-        return inicial;
-    }
-
-    public void setInicial(Estado inicial) {
-        this.inicial = inicial;
-    }
-
-    public ArrayList<Estado> getEstadosAceptacion() {
-        return aceptacion;
-    }
-
-    public void addEstadosAceptacion(Estado fin) {
-        this.aceptacion.add(fin);
-    }
-
-    public ArrayList<Estado> getEstados() {
-        return estados;
-    }
-
-    public void addEstados(Estado estado) {
-        this.estados.add(estado);
-    }
-
-    public HashSet getAlfabeto() {
-        return alfabeto;
-    }
-
-    public void crearAlfabeto(String regex) {
-        for (Character ch : regex.toCharArray()) {
-            if (ch != '|' && ch != '.' && ch != '*' && ch != '_' && ch != '~') {
-                this.alfabeto.add(Character.toString(ch));
-            }
-        }
-    }
-
-    public void setAlfabeto(HashSet alfabeto) {
-        this.alfabeto = alfabeto;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     @Override
     public String toString() {
         String res = new String();
         res += "" + this.tipo + ":\r\n";
-        res += "K={";
+        res += "K = {";
         for (int i = 0; i < this.estados.size(); i++) {
             if (i == this.estados.size() - 1) {
                 res += "q" + this.estados.get(i);
@@ -114,6 +66,54 @@ public class Automata {
         res += "}\r\n";
         res += "\r\n";
         return res;
+    }
+
+    public Estado getInicial() {
+        return inicial;
+    }
+
+    public void setInicial(Estado inicial) {
+        this.inicial = inicial;
+    }
+
+    public HashSet getAlfabeto() {
+        return alfabeto;
+    }
+
+    public void crearAlfabeto(String regex) {
+        for (Character ch : regex.toCharArray()) {
+            if (ch != '|' && ch != '.' && ch != '*' && ch != '_' && ch != '~') {
+                this.alfabeto.add(Character.toString(ch));
+            }
+        }
+    }
+
+    public void setAlfabeto(HashSet alfabeto) {
+        this.alfabeto = alfabeto;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public ArrayList<Estado> getEstadosAceptacion() {
+        return aceptacion;
+    }
+
+    public void addEstadosAceptacion(Estado fin) {
+        this.aceptacion.add(fin);
+    }
+
+    public ArrayList<Estado> getEstados() {
+        return estados;
+    }
+
+    public void addEstados(Estado estado) {
+        this.estados.add(estado);
     }
 
 }

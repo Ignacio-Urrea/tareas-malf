@@ -9,7 +9,8 @@ import java.util.Stack;
  */
 
 public class Convertidor {
-    private Map<Character, Integer> precedencia_operadores;
+
+    public Map<Character, Integer> precedencia_operadores;
 
     public Convertidor() {
         // operadores y precedencias
@@ -19,15 +20,6 @@ public class Convertidor {
         mapa.put('.', 3);
         mapa.put('*', 4);
         precedencia_operadores = Collections.unmodifiableMap(mapa);
-    }
-
-    // precedencia de cada caracter
-    private Integer obtenerPrecedencia(Character c) {
-        Integer precedencia = precedencia_operadores.get(c);
-        if (precedencia == null) {
-            precedencia = 6; // Precedencia por defecto
-        }
-        return precedencia;
     }
 
     // Convierte er a su posfijo
@@ -67,4 +59,14 @@ public class Convertidor {
         }
         return posfija;
     }
+
+    // precedencia de cada caracter
+    private Integer obtenerPrecedencia(Character c) {
+        Integer precedencia = precedencia_operadores.get(c);
+        if (precedencia == null) {
+            precedencia = 6; // Precedencia por defecto
+        }
+        return precedencia;
+    }
+
 }

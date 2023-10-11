@@ -4,13 +4,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
 public class AFD {
-    private Automata automataDeterministico;
-    private final Simulador simulador;
+
+    public AutomataProcessor processor;
+
+    Automata automataDeterministico;
 
     public AFD() {
         this.automataDeterministico = new Automata();
-        this.simulador = new Simulador();
+        this.processor = new AutomataProcessor();
     }
 
     public void convertirAFND_AFD(Automata afnd) {
@@ -20,7 +26,7 @@ public class AFD {
         Estado inicial = new Estado(0);
         automata.setInicial(inicial);
         automata.addEstados(inicial);
-        HashSet<Estado> array_inicial = simulador.eClosure(afnd.getInicial());
+        HashSet<Estado> array_inicial = processor.eClosure(afnd.getInicial());
         for (int i = 0; i < afnd.getEstadosAceptacion().size(); i++) {
             Estado aceptacion = afnd.getEstadosAceptacion().get(i);
             if (array_inicial.contains(aceptacion)) {
@@ -33,11 +39,11 @@ public class AFD {
         while (!cola.isEmpty()) {
             HashSet<Estado> actual = cola.poll();
             for (Object elemento : afnd.getAlfabeto()) {
-                HashSet<Estado> move_result = simulador.move(actual, (String) elemento);
+                HashSet<Estado> move_result = processor.move(actual, (String) elemento);
 
                 HashSet<Estado> resultado = new HashSet();
                 for (Estado e : move_result) {
-                    resultado.addAll(simulador.eClosure(e));
+                    resultado.addAll(processor.eClosure(e));
                 }
 
                 Estado anterior = (Estado) automata.getEstados().get(indexEstadoInicio);
