@@ -3,13 +3,12 @@
  * @author Ignacio Urrea
  */
 
-public class Transicion {
-
+public class Arista {
     String caracter;
     Estado inicio;
     Estado finall;
 
-    public Transicion(Estado inicio, Estado finall, String caracter) {
+    public Arista(Estado inicio, Estado finall, String caracter) {
         this.inicio = inicio;
         this.finall = finall;
         this.caracter = caracter;

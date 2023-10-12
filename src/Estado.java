@@ -3,16 +3,16 @@ import java.util.ArrayList;
 //representa un estado en un autómata
 public class Estado {
     private int id;
-    private ArrayList<Transicion> transiciones = new ArrayList();
+    private ArrayList<Arista> aristas = new ArrayList();
 
     public Estado(int id) {
         this.id = id;
     }
 
     // para inicializar con las trnasiciones
-    public Estado(int id, ArrayList<Transicion> transiciones) {
+    public Estado(int id, ArrayList<Arista> transiciones) {
         this.id = id;
-        this.transiciones = transiciones;
+        this.aristas = transiciones;
     }
 
     public int getId() {
@@ -23,12 +23,12 @@ public class Estado {
         this.id = id;
     }
 
-    public ArrayList<Transicion> getTransiciones() {
-        return transiciones;
+    public ArrayList<Arista> getTransiciones() {
+        return aristas;
     }
 
-    public boolean addTransiciones(Transicion e) {
-        return transiciones.add(e);
+    public boolean addTransiciones(Arista e) {
+        return aristas.add(e);
     }
 
     @Override

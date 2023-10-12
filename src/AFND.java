@@ -57,7 +57,7 @@ public class AFND {
         Automata automataAux = new Automata();
         Estado inicio = new Estado(0);
         Estado fin = new Estado(1);
-        Transicion tran = new Transicion(inicio, fin, String.valueOf(elemento));
+        Arista tran = new Arista(inicio, fin, String.valueOf(elemento));
         inicio.addTransiciones(tran);
         automataAux.addEstados(inicio);
         automataAux.addEstados(fin);
@@ -82,7 +82,7 @@ public class AFND {
         Automata unionAutomata = new Automata();
         Estado inicio = new Estado(0);
 
-        Transicion tran = new Transicion(inicio, segundoAutomata.getInicial(), "_");
+        Arista tran = new Arista(inicio, segundoAutomata.getInicial(), "_");
 
         inicio.addTransiciones(tran);
 
@@ -112,16 +112,16 @@ public class AFND {
         ArrayList<Estado> anteriorFin = primerAutomata.getEstadosAceptacion();
         ArrayList<Estado> anteriorFin2 = segundoAutomata.getEstadosAceptacion();
 
-        Transicion tranAux = new Transicion(inicio, anteriorInicio, "_");
+        Arista tranAux = new Arista(inicio, anteriorInicio, "_");
         inicio.getTransiciones().add(tranAux);
 
         for (int k = 0; k < anteriorFin.size(); k++) {
-            tranAux = new Transicion(anteriorFin.get(k), fin, "_");
+            tranAux = new Arista(anteriorFin.get(k), fin, "_");
             anteriorFin.get(k).getTransiciones().add(tranAux);
         }
 
         for (int k = 0; k < anteriorFin2.size(); k++) {
-            tranAux = new Transicion(anteriorFin2.get(k), fin, "_");
+            tranAux = new Arista(anteriorFin2.get(k), fin, "_");
             anteriorFin2.get(k).getTransiciones().add(tranAux);
         }
 
@@ -146,7 +146,7 @@ public class AFND {
 
             if (i == segundoAutomata.getEstados().size() - 1) {
                 for (int j = 0; j < segundoAutomata.getEstadosAceptacion().size(); j++) {
-                    Transicion tranAux = new Transicion(segundoAutomata.getEstadosAceptacion().get(j),
+                    Arista tranAux = new Arista(segundoAutomata.getEstadosAceptacion().get(j),
                             primerAutomata.getInicial(), "_");
                     estadoAux.addTransiciones(tranAux);
                 }
@@ -193,24 +193,24 @@ public class AFND {
         Estado inicioAnterior = afnd.getInicial();
         ArrayList<Estado> finAnterior = afnd.getEstadosAceptacion();
 
-        inicio.getTransiciones().add(new Transicion(inicio, inicioAnterior, "_"));
-        inicio.getTransiciones().add(new Transicion(inicio, fin, "_"));
+        inicio.getTransiciones().add(new Arista(inicio, inicioAnterior, "_"));
+        inicio.getTransiciones().add(new Arista(inicio, fin, "_"));
 
         for (int i = 0; i < finAnterior.size(); i++) {
-            finAnterior.get(i).getTransiciones().add(new Transicion(finAnterior.get(i), inicioAnterior, "_"));
-            finAnterior.get(i).getTransiciones().add(new Transicion(finAnterior.get(i), fin, "_"));
+            finAnterior.get(i).getTransiciones().add(new Arista(finAnterior.get(i), inicioAnterior, "_"));
+            finAnterior.get(i).getTransiciones().add(new Arista(finAnterior.get(i), fin, "_"));
         }
         kleeneAutomata.setAlfabeto(afnd.getAlfabeto());
         return kleeneAutomata;
     }
 
     public void agregarSignoAlfabetoGeneral() {
-        Stack<Transicion> transiciones = new Stack<>();
+        Stack<Arista> transiciones = new Stack<>();
         for (int i = automata.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
             transiciones.push(automata.getInicial().getTransiciones().remove(i));
         }
 
-        Transicion tran = new Transicion(automata.getInicial(), automata.getInicial(), "#");
+        Arista tran = new Arista(automata.getInicial(), automata.getInicial(), "#");
         automata.getInicial().addTransiciones(tran);
 
         while (!transiciones.isEmpty()) {
