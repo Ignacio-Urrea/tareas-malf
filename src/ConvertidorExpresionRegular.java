@@ -4,25 +4,43 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
+ * Clase que realiza la conversión de una expresión regular de notación infix a
+ * postfix (posfijo).
+ * 
+ * Esta clase contiene métodos para convertir una expresión regular en su forma
+ * posfija.
+ * La clase utiliza una pila para realizar la conversión y tiene en cuenta la
+ * precedencia de los operadores.
+ * 
+ * Los operadores permitidos son: '(', '|', '.', '*'.
+ * 
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
+public class ConvertidorExpresionRegular {
 
-public class Convertidor {
+    // Mapa que almacena los operadores y sus precedencias
+    private final Map<Character, Integer> precedenciaOperadores;
 
-    public Map<Character, Integer> precedencia_operadores;
-
-    public Convertidor() {
-        // operadores y precedencias
+    /**
+     * Constructor de la clase ConvertidorExpresionRegular.
+     * Inicializa el mapa de precedencias de los operadores.
+     */
+    public ConvertidorExpresionRegular() {
         Map<Character, Integer> mapa = new HashMap<>();
         mapa.put('(', 1);
         mapa.put('|', 2);
         mapa.put('.', 3);
         mapa.put('*', 4);
-        precedencia_operadores = Collections.unmodifiableMap(mapa);
+        precedenciaOperadores = Collections.unmodifiableMap(mapa);
     }
 
-    // Convierte er a su posfijo
+    /**
+     * Convierte una expresión regular de notación infix a postfix (posfijo).
+     *
+     * @param expresion La expresión regular en notación infix.
+     * @return La expresión regular convertida a postfix (posfijo).
+     */
     public String convertir(String expresion) {
         String posfija = new String();
         Stack<Character> pila = new Stack<>();
@@ -60,13 +78,18 @@ public class Convertidor {
         return posfija;
     }
 
-    // precedencia de cada caracter
+    /**
+     * Obtiene la precedencia de un operador dado.
+     *
+     * @param c El operador cuya precedencia se debe determinar.
+     * @return La precedencia del operador. Si el operador no está en el mapa,
+     *         devuelve 6 (predefinido).
+     */
     private Integer obtenerPrecedencia(Character c) {
-        Integer precedencia = precedencia_operadores.get(c);
+        Integer precedencia = precedenciaOperadores.get(c);
         if (precedencia == null) {
             precedencia = 6; // Precedencia por defecto
         }
         return precedencia;
     }
-
 }

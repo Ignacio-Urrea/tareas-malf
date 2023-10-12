@@ -1,16 +1,26 @@
 /**
- * @author Gerardo Estrada
- * @author Pedro González
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
  */
-public class Transicion {
-    public String elemento;
-    public Estado inicio;
-    public Estado fin;
 
-    public Transicion(Estado inicio, Estado fin, String elemento) {
+public class Transicion {
+
+    String caracter;
+    Estado inicio;
+    Estado finall;
+
+    public Transicion(Estado inicio, Estado finall, String caracter) {
         this.inicio = inicio;
-        this.fin = fin;
-        this.elemento = elemento;
+        this.finall = finall;
+        this.caracter = caracter;
+    }
+
+    public String getCaracter() {
+        return caracter;
+    }
+
+    public void setCaracter(String elemento) {
+        this.caracter = caracter;
     }
 
     public Estado getInicio() {
@@ -22,29 +32,16 @@ public class Transicion {
     }
 
     public Estado getFin() {
-        return fin;
+        return finall;
     }
 
     public void setFin(Estado fin) {
-        this.fin = fin;
+        this.finall = fin;
     }
 
-    public String getElemento() {
-        return elemento;
-    }
-
-    public void setElemento(String elemento) {
-        this.elemento = elemento;
-    }
-
-    /**
-     * Mostrar la transicion
-     * 
-     * @return String toString
-     */
     @Override
     public String toString() {
-        return "(q" + inicio.getId() + "," + elemento + ",q" + fin.getId() + ")";
+        return "(q" + inicio.getId() + "," + caracter + ",q" + finall.getId() + ")";
     }
 
 }

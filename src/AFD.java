@@ -19,18 +19,18 @@ public class AFD {
         this.processor = new AutomataProcessor();
     }
 
-    public void convertirAFND_AFD(Automata afnd) {
+    public void AFNDtoAFD(Automata afnd) {
+        Estado first = new Estado(0);
+
         Automata automata = new Automata();
         Queue<HashSet<Estado>> cola = new LinkedList();
-
-        Estado inicial = new Estado(0);
-        automata.setInicial(inicial);
-        automata.addEstados(inicial);
+        automata.setInicial(first);
+        automata.addEstados(first);
         HashSet<Estado> array_inicial = processor.eClosure(afnd.getInicial());
         for (int i = 0; i < afnd.getEstadosAceptacion().size(); i++) {
             Estado aceptacion = afnd.getEstadosAceptacion().get(i);
             if (array_inicial.contains(aceptacion)) {
-                automata.addEstadosAceptacion(inicial);
+                automata.addEstadosAceptacion(first);
             }
         }
         cola.add(array_inicial);

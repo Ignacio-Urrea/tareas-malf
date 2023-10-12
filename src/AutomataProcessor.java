@@ -27,7 +27,7 @@ public class AutomataProcessor {
             actual = pilaClosure.pop();
 
             for (Transicion t : (ArrayList<Transicion>) actual.getTransiciones()) {
-                if (t.getElemento() == "_" && !resultado.contains(t.getFin())) {
+                if (t.getCaracter() == "_" && !resultado.contains(t.getFin())) {
                     resultado.add(t.getFin());
                     pilaClosure.push(t.getFin());
                 }
@@ -43,7 +43,7 @@ public class AutomataProcessor {
         while (iterador.hasNext()) {
             for (Transicion tranAux : (ArrayList<Transicion>) iterador.next().getTransiciones()) {
                 Estado siguiente = tranAux.getFin();
-                if (tranAux.getElemento().equals(simbolo)) {
+                if (tranAux.getCaracter().equals(simbolo)) {
                     alcanzados.add(siguiente);
                 }
             }
@@ -57,7 +57,7 @@ public class AutomataProcessor {
 
         for (Transicion t : (ArrayList<Transicion>) estado.getTransiciones()) {
             Estado siguiente = t.getFin();
-            String simb = (String) t.getElemento();
+            String simb = (String) t.getCaracter();
 
             if (simb.equals(simbolo) && !alcanzados.contains(siguiente)) {
                 alcanzados.add(siguiente);
