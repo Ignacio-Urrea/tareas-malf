@@ -19,14 +19,14 @@ public class AutomataProcessor {
     public HashSet<Estado> eClosure(Estado eClosureEstado) {
         Stack<Estado> pilaClosure = new Stack();
         Estado actual = eClosureEstado;
-        actual.getTransiciones();
+        actual.getAristas();
         HashSet<Estado> resultado = new HashSet();
 
         pilaClosure.push(actual);
         while (!pilaClosure.isEmpty()) {
             actual = pilaClosure.pop();
 
-            for (Transicion t : (ArrayList<Transicion>) actual.getTransiciones()) {
+            for (Arista t : (ArrayList<Arista>) actual.getAristas()) {
                 if (t.getCaracter() == "_" && !resultado.contains(t.getFin())) {
                     resultado.add(t.getFin());
                     pilaClosure.push(t.getFin());
@@ -41,7 +41,7 @@ public class AutomataProcessor {
         HashSet<Estado> alcanzados = new HashSet();
         Iterator<Estado> iterador = estados.iterator();
         while (iterador.hasNext()) {
-            for (Transicion tranAux : (ArrayList<Transicion>) iterador.next().getTransiciones()) {
+            for (Arista tranAux : (ArrayList<Arista>) iterador.next().getAristas()) {
                 Estado siguiente = tranAux.getFin();
                 if (tranAux.getCaracter().equals(simbolo)) {
                     alcanzados.add(siguiente);
@@ -55,7 +55,7 @@ public class AutomataProcessor {
     public Estado move(Estado estado, String simbolo) {
         ArrayList<Estado> alcanzados = new ArrayList();
 
-        for (Transicion t : (ArrayList<Transicion>) estado.getTransiciones()) {
+        for (Arista t : (ArrayList<Arista>) estado.getAristas()) {
             Estado siguiente = t.getFin();
             String simb = (String) t.getCaracter();
 

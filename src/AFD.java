@@ -52,14 +52,14 @@ public class AFD {
                     Estado estado_viejo = anterior;
                     Estado estado_siguiente = array_viejo.get(temporal.indexOf(resultado) + 1);
 
-                    estado_viejo.addTransiciones(new Arista(estado_viejo, estado_siguiente, (String) elemento));
+                    estado_viejo.addAristas(new Arista(estado_viejo, estado_siguiente, (String) elemento));
 
                 } else {
                     temporal.add(resultado);
                     cola.add(resultado);
 
                     Estado nuevo = new Estado(temporal.indexOf(resultado) + 1);
-                    anterior.addTransiciones(new Arista(anterior, nuevo, (String) elemento));
+                    anterior.addAristas(new Arista(anterior, nuevo, (String) elemento));
                     automata.addEstados(nuevo);
                     for (Estado aceptacion : afnd.getEstadosAceptacion()) {
                         if (resultado.contains(aceptacion)) {
@@ -79,9 +79,9 @@ public class AFD {
     public Automata quitarEstadosTrampa(Automata afd) {
         ArrayList<Estado> estadosAQuitar = new ArrayList();
         for (int i = 0; i < afd.getEstados().size(); i++) {
-            int verificarCantidadTransiciones = afd.getEstados().get(i).getTransiciones().size();
+            int verificarCantidadTransiciones = afd.getEstados().get(i).getAristas().size();
             int contadorTransiciones = 0;
-            for (Arista t : (ArrayList<Arista>) afd.getEstados().get(i).getTransiciones()) {
+            for (Arista t : (ArrayList<Arista>) afd.getEstados().get(i).getAristas()) {
                 if (afd.getEstados().get(i) == t.getFin()) {
                     contadorTransiciones++;
                 }
@@ -95,12 +95,12 @@ public class AFD {
         }
         for (int i = 0; i < estadosAQuitar.size(); i++) {
             for (int j = 0; j < afd.getEstados().size(); j++) {
-                ArrayList<Arista> arrayT = afd.getEstados().get(j).getTransiciones();
+                ArrayList<Arista> arrayT = afd.getEstados().get(j).getAristas();
                 int cont = 0;
                 while (arrayT.size() > cont) {
                     Arista t = arrayT.get(cont);
                     if (t.getFin() == estadosAQuitar.get(i)) {
-                        afd.getEstados().get(j).getTransiciones().remove(t);
+                        afd.getEstados().get(j).getAristas().remove(t);
                         cont--;
                     }
                     cont++;
@@ -118,15 +118,15 @@ public class AFD {
 
     public void agregarSignoAlfabetoGeneral() {
         Stack<Arista> transiciones = new Stack();
-        for (int i = automataDeterministico.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
-            transiciones.push(automataDeterministico.getInicial().getTransiciones().remove(i));
+        for (int i = automataDeterministico.getInicial().getAristas().size() - 1; i >= 0; i--) {
+            transiciones.push(automataDeterministico.getInicial().getAristas().remove(i));
         }
 
         Arista tran = new Arista(automataDeterministico.getInicial(), automataDeterministico.getInicial(), "#");
-        automataDeterministico.getInicial().addTransiciones(tran);
+        automataDeterministico.getInicial().addAristas(tran);
 
         while (!transiciones.isEmpty()) {
-            automataDeterministico.getInicial().addTransiciones((Arista) transiciones.pop());
+            automataDeterministico.getInicial().addAristas((Arista) transiciones.pop());
         }
     }
 

@@ -58,7 +58,7 @@ public class AFND {
         Estado inicio = new Estado(0);
         Estado fin = new Estado(1);
         Arista tran = new Arista(inicio, fin, String.valueOf(elemento));
-        inicio.addTransiciones(tran);
+        inicio.addAristas(tran);
         automataAux.addEstados(inicio);
         automataAux.addEstados(fin);
 
@@ -84,7 +84,7 @@ public class AFND {
 
         Arista tran = new Arista(inicio, segundoAutomata.getInicial(), "_");
 
-        inicio.addTransiciones(tran);
+        inicio.addAristas(tran);
 
         unionAutomata.addEstados(inicio);
         unionAutomata.setInicial(inicio);
@@ -113,16 +113,16 @@ public class AFND {
         ArrayList<Estado> anteriorFin2 = segundoAutomata.getEstadosAceptacion();
 
         Arista tranAux = new Arista(inicio, anteriorInicio, "_");
-        inicio.getTransiciones().add(tranAux);
+        inicio.getAristas().add(tranAux);
 
         for (int k = 0; k < anteriorFin.size(); k++) {
             tranAux = new Arista(anteriorFin.get(k), fin, "_");
-            anteriorFin.get(k).getTransiciones().add(tranAux);
+            anteriorFin.get(k).getAristas().add(tranAux);
         }
 
         for (int k = 0; k < anteriorFin2.size(); k++) {
             tranAux = new Arista(anteriorFin2.get(k), fin, "_");
-            anteriorFin2.get(k).getTransiciones().add(tranAux);
+            anteriorFin2.get(k).getAristas().add(tranAux);
         }
 
         HashSet<String> alfabeto = new HashSet<>();
@@ -148,7 +148,7 @@ public class AFND {
                 for (int j = 0; j < segundoAutomata.getEstadosAceptacion().size(); j++) {
                     Arista tranAux = new Arista(segundoAutomata.getEstadosAceptacion().get(j),
                             primerAutomata.getInicial(), "_");
-                    estadoAux.addTransiciones(tranAux);
+                    estadoAux.addAristas(tranAux);
                 }
             }
             concatenacionAutomata.addEstados(estadoAux);
@@ -193,12 +193,12 @@ public class AFND {
         Estado inicioAnterior = afnd.getInicial();
         ArrayList<Estado> finAnterior = afnd.getEstadosAceptacion();
 
-        inicio.getTransiciones().add(new Arista(inicio, inicioAnterior, "_"));
-        inicio.getTransiciones().add(new Arista(inicio, fin, "_"));
+        inicio.getAristas().add(new Arista(inicio, inicioAnterior, "_"));
+        inicio.getAristas().add(new Arista(inicio, fin, "_"));
 
         for (int i = 0; i < finAnterior.size(); i++) {
-            finAnterior.get(i).getTransiciones().add(new Arista(finAnterior.get(i), inicioAnterior, "_"));
-            finAnterior.get(i).getTransiciones().add(new Arista(finAnterior.get(i), fin, "_"));
+            finAnterior.get(i).getAristas().add(new Arista(finAnterior.get(i), inicioAnterior, "_"));
+            finAnterior.get(i).getAristas().add(new Arista(finAnterior.get(i), fin, "_"));
         }
         kleeneAutomata.setAlfabeto(afnd.getAlfabeto());
         return kleeneAutomata;
@@ -206,15 +206,15 @@ public class AFND {
 
     public void agregarSignoAlfabetoGeneral() {
         Stack<Arista> transiciones = new Stack<>();
-        for (int i = automata.getInicial().getTransiciones().size() - 1; i >= 0; i--) {
-            transiciones.push(automata.getInicial().getTransiciones().remove(i));
+        for (int i = automata.getInicial().getAristas().size() - 1; i >= 0; i--) {
+            transiciones.push(automata.getInicial().getAristas().remove(i));
         }
 
         Arista tran = new Arista(automata.getInicial(), automata.getInicial(), "#");
-        automata.getInicial().addTransiciones(tran);
+        automata.getInicial().addAristas(tran);
 
         while (!transiciones.isEmpty()) {
-            automata.getInicial().addTransiciones(transiciones.pop());
+            automata.getInicial().addAristas(transiciones.pop());
         }
     }
 

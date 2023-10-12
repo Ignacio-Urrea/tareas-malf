@@ -48,8 +48,8 @@ public class Automata {
         res += "Delta: \r\n";
         for (int i = 0; i < this.estados.size(); i++) {
             Estado est = estados.get(i);
-            for (int j = 0; j < est.getTransiciones().size(); j++) {
-                res += est.getTransiciones().get(j) + "\r\n";
+            for (int j = 0; j < est.getAristas().size(); j++) {
+                res += est.getAristas().get(j) + "\r\n";
             }
 
         }

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-//representa un estado en un autómata
+//representa un estado en un autómata con su identificador y su lista de aristas
 public class Estado {
     private int id;
     private ArrayList<Arista> aristas = new ArrayList();
@@ -9,10 +9,9 @@ public class Estado {
         this.id = id;
     }
 
-    // para inicializar con las trnasiciones
-    public Estado(int id, ArrayList<Arista> transiciones) {
+    public Estado(int id, ArrayList<Arista> aristas) {
         this.id = id;
-        this.aristas = transiciones;
+        this.aristas = aristas;
     }
 
     public int getId() {
@@ -23,11 +22,11 @@ public class Estado {
         this.id = id;
     }
 
-    public ArrayList<Arista> getTransiciones() {
+    public ArrayList<Arista> getAristas() {
         return aristas;
     }
 
-    public boolean addTransiciones(Arista e) {
+    public boolean addAristas(Arista e) {
         return aristas.add(e);
     }
 
