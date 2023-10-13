@@ -4,28 +4,16 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * Clase que realiza la conversión de una expresión regular de notación infix a
- * postfix (posfijo).
- * 
- * Esta clase contiene métodos para convertir una expresión regular en su forma
- * posfija.
- * La clase utiliza una pila para realizar la conversión y tiene en cuenta la
- * precedencia de los operadores.
- * 
- * Los operadores permitidos son: '(', '|', '.', '*'.
- * 
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
+
+// er a su postfijo
 public class ConvertidorExpresionRegular {
 
     // Mapa que almacena los operadores y sus precedencias
     private final Map<Character, Integer> precedenciaOperadores;
 
-    /**
-     * Constructor de la clase ConvertidorExpresionRegular.
-     * Inicializa el mapa de precedencias de los operadores.
-     */
     public ConvertidorExpresionRegular() {
         Map<Character, Integer> mapa = new HashMap<>();
         mapa.put('(', 1);
@@ -35,12 +23,6 @@ public class ConvertidorExpresionRegular {
         precedenciaOperadores = Collections.unmodifiableMap(mapa);
     }
 
-    /**
-     * Convierte una expresión regular de notación infix a postfix (posfijo).
-     *
-     * @param expresion La expresión regular en notación infix.
-     * @return La expresión regular convertida a postfix (posfijo).
-     */
     public String convertir(String expresion) {
         String posfija = new String();
         Stack<Character> pila = new Stack<>();
@@ -78,13 +60,6 @@ public class ConvertidorExpresionRegular {
         return posfija;
     }
 
-    /**
-     * Obtiene la precedencia de un operador dado.
-     *
-     * @param c El operador cuya precedencia se debe determinar.
-     * @return La precedencia del operador. Si el operador no está en el mapa,
-     *         devuelve 6 (predefinido).
-     */
     private Integer obtenerPrecedencia(Character c) {
         Integer precedencia = precedenciaOperadores.get(c);
         if (precedencia == null) {

@@ -7,41 +7,19 @@ import java.util.Stack;
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
-
 public class AutomataProcessor {
-    Estado inicial;
-    ArrayList<Estado> aceptacion;
-    HashSet<Estado> conjunto;
+    Estado estadoInicial;
+    ArrayList<Estado> estadosAceptacion;
+    HashSet<Estado> conjuntoEstados;
 
     public AutomataProcessor() {
     }
 
-    public HashSet<Estado> eClosure(Estado eClosureEstado) {
-        Stack<Estado> pilaClosure = new Stack();
-        Estado actual = eClosureEstado;
-        actual.getAristas();
-        HashSet<Estado> resultado = new HashSet();
-
-        pilaClosure.push(actual);
-        while (!pilaClosure.isEmpty()) {
-            actual = pilaClosure.pop();
-
-            for (Arista t : (ArrayList<Arista>) actual.getAristas()) {
-                if (t.getCaracter() == "_" && !resultado.contains(t.getFin())) {
-                    resultado.add(t.getFin());
-                    pilaClosure.push(t.getFin());
-                }
-            }
-        }
-        resultado.add(eClosureEstado);
-        return resultado;
-    }
-
     public HashSet<Estado> move(HashSet<Estado> estados, String simbolo) {
         HashSet<Estado> alcanzados = new HashSet();
-        Iterator<Estado> iterador = estados.iterator();
-        while (iterador.hasNext()) {
-            for (Arista tranAux : (ArrayList<Arista>) iterador.next().getAristas()) {
+        Iterator<Estado> iterator = estados.iterator();
+        while (iterator.hasNext()) {
+            for (Arista tranAux : (ArrayList<Arista>) iterator.next().getAristas()) {
                 Estado siguiente = tranAux.getFin();
                 if (tranAux.getCaracter().equals(simbolo)) {
                     alcanzados.add(siguiente);
@@ -49,7 +27,6 @@ public class AutomataProcessor {
             }
         }
         return alcanzados;
-
     }
 
     public Estado move(Estado estado, String simbolo) {
@@ -62,24 +39,42 @@ public class AutomataProcessor {
             if (simb.equals(simbolo) && !alcanzados.contains(siguiente)) {
                 alcanzados.add(siguiente);
             }
-
         }
 
         return alcanzados.get(0);
     }
 
-    // mettodo para simular un automata sin importar si es afd o afnd
+    public HashSet<Estado> eClosure(Estado eClosureEstado) {
+        Stack<Estado> stackClosure = new Stack();
+        Estado current = eClosureEstado;
+        current.getAristas();
+        HashSet<Estado> result = new HashSet();
+
+        stackClosure.push(current);
+        while (!stackClosure.isEmpty()) {
+            current = stackClosure.pop();
+
+            for (Arista t : (ArrayList<Arista>) current.getAristas()) {
+                if (t.getCaracter() == "_" && !result.contains(t.getFin())) {
+                    result.add(t.getFin());
+                    stackClosure.push(t.getFin());
+                }
+            }
+        }
+        result.add(eClosureEstado);
+        return result;
+    }
 
     public boolean simular(String regex, Automata automata) {
-        inicial = automata.getInicial();
-        aceptacion = new ArrayList(automata.getEstadosAceptacion());
-        conjunto = eClosure(inicial);
+        estadoInicial = automata.getInicial();
+        estadosAceptacion = new ArrayList(automata.getestadosAceptados());
+        conjuntoEstados = eClosure(estadoInicial);
         int inicioCalce = 0, finCalce = 0, cont = 0;
         boolean anterior = false;
 
         for (Character ch : regex.toCharArray()) {
             if (!automata.getAlfabeto().contains(ch.toString())) {
-                if (evaluarAceptacion(aceptacion, conjunto) && anterior) {
+                if (evaluarAceptacion(estadosAceptacion, conjuntoEstados) && anterior) {
                     finCalce = cont - 1;
                     if (inicioCalce <= finCalce)
                         System.out.println(inicioCalce + " " + finCalce);
@@ -90,7 +85,7 @@ public class AutomataProcessor {
                 anterior = false;
             }
             obtenerEstadosAlcanzados(ch);
-            if (anterior && !evaluarAceptacion(aceptacion, conjunto) && conjunto.size() == 0) {
+            if (anterior && !evaluarAceptacion(estadosAceptacion, conjuntoEstados) && conjuntoEstados.size() == 0) {
                 finCalce = cont - 1;
                 if (inicioCalce <= finCalce)
                     System.out.println(inicioCalce + " " + finCalce);
@@ -99,19 +94,19 @@ public class AutomataProcessor {
                 obtenerEstadosAlcanzados(ch);
                 anterior = false;
             }
-            if (conjunto.isEmpty()) {
+            if (conjuntoEstados.isEmpty()) {
                 inicioCalce = cont;
                 regresarInicioAutomata(automata);
                 obtenerEstadosAlcanzados(ch);
             }
-            if (evaluarAceptacion(aceptacion, conjunto)) {
+            if (evaluarAceptacion(estadosAceptacion, conjuntoEstados)) {
                 anterior = true;
             }
 
             cont++;
         }
 
-        if (evaluarAceptacion(aceptacion, conjunto)) {
+        if (evaluarAceptacion(estadosAceptacion, conjuntoEstados)) {
             finCalce = cont - 1;
             if (inicioCalce <= finCalce)
                 System.out.println(inicioCalce + " " + finCalce);
@@ -121,21 +116,20 @@ public class AutomataProcessor {
     }
 
     public void obtenerEstadosAlcanzados(Character ch) {
-        conjunto = move(conjunto, ch.toString());
+        conjuntoEstados = move(conjuntoEstados, ch.toString());
         HashSet<Estado> temp = new HashSet();
-        Iterator<Estado> iter = conjunto.iterator();
+        Iterator<Estado> iter = conjuntoEstados.iterator();
 
         while (iter.hasNext()) {
             Estado siguiente = iter.next();
             temp.addAll(eClosure(siguiente));
         }
-        conjunto = temp;
+        conjuntoEstados = temp;
     }
 
     public void regresarInicioAutomata(Automata automata) {
-
-        inicial = automata.getInicial();
-        conjunto = eClosure(inicial);
+        estadoInicial = automata.getInicial();
+        conjuntoEstados = eClosure(estadoInicial);
     }
 
     public boolean evaluarAceptacion(ArrayList<Estado> aceptacion, HashSet<Estado> conjunto) {
@@ -148,5 +142,4 @@ public class AutomataProcessor {
         }
         return res;
     }
-
 }

@@ -14,13 +14,13 @@ public class T1 {
             algoritmoThomson.crearAFND();
             // afnd
             algoritmoThomson.agregarSignoAlfabetoGeneral();
-            Automata resultado_afnd = algoritmoThomson.getAutomata();
-            System.out.println(resultado_afnd);
+            Automata afnd = algoritmoThomson.getAutomata();
+            System.out.println(afnd);
             AFD afd = new AFD();
-            afd.AFNDtoAFD(resultado_afnd);
+            afd.AFNDtoAFD(afnd);
             afd.agregarSignoAlfabetoGeneral();
-            Automata resultado_afd = afd.getAutomataDeterministico();
-            System.out.println(resultado_afd);
+            Automata afd_res = afd.getAutomataDeterministico();
+            System.out.println(afd_res);
         }
 
         else {

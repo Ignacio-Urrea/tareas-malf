@@ -27,10 +27,10 @@ public class AFD {
         automata.setInicial(first);
         automata.addEstados(first);
         HashSet<Estado> array_inicial = processor.eClosure(afnd.getInicial());
-        for (int i = 0; i < afnd.getEstadosAceptacion().size(); i++) {
-            Estado aceptacion = afnd.getEstadosAceptacion().get(i);
+        for (int i = 0; i < afnd.getestadosAceptados().size(); i++) {
+            Estado aceptacion = afnd.getestadosAceptados().get(i);
             if (array_inicial.contains(aceptacion)) {
-                automata.addEstadosAceptacion(first);
+                automata.addestadosAceptados(first);
             }
         }
         cola.add(array_inicial);
@@ -61,9 +61,9 @@ public class AFD {
                     Estado nuevo = new Estado(temporal.indexOf(resultado) + 1);
                     anterior.addAristas(new Arista(anterior, nuevo, (String) elemento));
                     automata.addEstados(nuevo);
-                    for (Estado aceptacion : afnd.getEstadosAceptacion()) {
+                    for (Estado aceptacion : afnd.getestadosAceptados()) {
                         if (resultado.contains(aceptacion)) {
-                            automata.addEstadosAceptacion(nuevo);
+                            automata.addestadosAceptados(nuevo);
                         }
                     }
                 }
@@ -74,46 +74,6 @@ public class AFD {
         this.automataDeterministico = automata;
         definirAlfabeto(afnd);
         this.automataDeterministico.setTipo("AFD");
-    }
-
-    public Automata quitarEstadosTrampa(Automata afd) {
-        ArrayList<Estado> estadosAQuitar = new ArrayList();
-        for (int i = 0; i < afd.getEstados().size(); i++) {
-            int verificarCantidadTransiciones = afd.getEstados().get(i).getAristas().size();
-            int contadorTransiciones = 0;
-            for (Arista t : (ArrayList<Arista>) afd.getEstados().get(i).getAristas()) {
-                if (afd.getEstados().get(i) == t.getFin()) {
-                    contadorTransiciones++;
-                }
-
-            }
-            if (verificarCantidadTransiciones == contadorTransiciones && contadorTransiciones != 0) {
-
-                estadosAQuitar.add(afd.getEstados().get(i));
-            }
-
-        }
-        for (int i = 0; i < estadosAQuitar.size(); i++) {
-            for (int j = 0; j < afd.getEstados().size(); j++) {
-                ArrayList<Arista> arrayT = afd.getEstados().get(j).getAristas();
-                int cont = 0;
-                while (arrayT.size() > cont) {
-                    Arista t = arrayT.get(cont);
-                    if (t.getFin() == estadosAQuitar.get(i)) {
-                        afd.getEstados().get(j).getAristas().remove(t);
-                        cont--;
-                    }
-                    cont++;
-
-                }
-            }
-            afd.getEstados().remove(estadosAQuitar.get(i));
-        }
-        for (int i = 0; i < afd.getEstados().size(); i++) {
-            afd.getEstados().get(i).setId(i);
-        }
-
-        return afd;
     }
 
     public void agregarSignoAlfabetoGeneral() {

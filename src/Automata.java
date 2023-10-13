@@ -9,21 +9,50 @@ import java.util.HashSet;
 // en base a esta clase crearemos los afd y afnd
 public class Automata {
     HashSet alfabeto;
-    String tipo;
-    ArrayList<Estado> aceptacion;
+    String type;
+    ArrayList<Estado> estadosAceptados;
     ArrayList<Estado> estados;
-    Estado inicial;
+    Estado inicio;
 
     public Automata() {
-        this.estados = new ArrayList();
-        this.aceptacion = new ArrayList();
+        this.estadosAceptados = new ArrayList();
         this.alfabeto = new HashSet();
+        this.estados = new ArrayList();
+
+    }
+
+    public void setAlfabeto(HashSet alfabeto) {
+        this.alfabeto = alfabeto;
+    }
+
+    public String getTipo() {
+        return type;
+    }
+
+    public void setTipo(String tipo) {
+        this.type = tipo;
+    }
+
+    public ArrayList<Estado> getestadosAceptados() {
+        return estadosAceptados;
+    }
+
+    public void addestadosAceptados(Estado fin) {
+        this.estadosAceptados.add(fin);
+    }
+
+    public ArrayList<Estado> getEstados() {
+        return estados;
+    }
+
+    public void addEstados(Estado estado) {
+        this.estados.add(estado);
     }
 
     @Override
     public String toString() {
         String res = new String();
-        res += "" + this.tipo + ":\r\n";
+        res += "" + this.type + ":\r\n";
         res += "K = {";
         for (int i = 0; i < this.estados.size(); i++) {
             if (i == this.estados.size() - 1) {
@@ -53,13 +82,13 @@ public class Automata {
             }
 
         }
-        res += "s={q" + this.inicial + "}\r\n";
+        res += "s={q" + this.inicio + "}\r\n";
         res += "F={";
-        for (int i = 0; i < this.aceptacion.size(); i++) {
-            if (i == this.aceptacion.size() - 1) {
-                res += "q" + this.aceptacion.get(i);
+        for (int i = 0; i < this.estadosAceptados.size(); i++) {
+            if (i == this.estadosAceptados.size() - 1) {
+                res += "q" + this.estadosAceptados.get(i);
             } else {
-                res += "q" + this.aceptacion.get(i) + ",";
+                res += "q" + this.estadosAceptados.get(i) + ",";
             }
 
         }
@@ -69,11 +98,11 @@ public class Automata {
     }
 
     public Estado getInicial() {
-        return inicial;
+        return inicio;
     }
 
-    public void setInicial(Estado inicial) {
-        this.inicial = inicial;
+    public void setInicial(Estado inicio) {
+        this.inicio = inicio;
     }
 
     public HashSet getAlfabeto() {
@@ -86,34 +115,6 @@ public class Automata {
                 this.alfabeto.add(Character.toString(ch));
             }
         }
-    }
-
-    public void setAlfabeto(HashSet alfabeto) {
-        this.alfabeto = alfabeto;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public ArrayList<Estado> getEstadosAceptacion() {
-        return aceptacion;
-    }
-
-    public void addEstadosAceptacion(Estado fin) {
-        this.aceptacion.add(fin);
-    }
-
-    public ArrayList<Estado> getEstados() {
-        return estados;
-    }
-
-    public void addEstados(Estado estado) {
-        this.estados.add(estado);
     }
 
 }
