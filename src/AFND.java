@@ -8,49 +8,10 @@ import java.util.Stack;
  */
 public class AFND {
     private Automata automata;
-    private String expresionRegular;
+    private String ER;
 
-    public AFND(String expresionRegular) {
-        this.expresionRegular = expresionRegular;
-    }
-
-    public void crearAFND() {
-        Stack<Automata> pilaAFND = new Stack<>();
-
-        Automata primerAutomata, kleeneAutomata;
-
-        Automata segundoAutomata;
-        for (int i = 0; i < this.expresionRegular.length(); i++) {
-            char c = this.expresionRegular.charAt(i);
-            if (c == '*') {
-                kleeneAutomata = kleene(pilaAFND.pop());
-                pilaAFND.push(kleeneAutomata);
-                this.automata = kleeneAutomata;
-            } else if (c == '.') {
-                primerAutomata = pilaAFND.pop();
-                segundoAutomata = pilaAFND.pop();
-                Automata concatenacionAutomata = AFND_CONCATENACION(primerAutomata, segundoAutomata);
-                pilaAFND.push(concatenacionAutomata);
-                this.automata = concatenacionAutomata;
-            } else if (c == '|') {
-                primerAutomata = pilaAFND.pop();
-                segundoAutomata = pilaAFND.pop();
-                Automata unionAutomata = AFND_UNION(primerAutomata, segundoAutomata);
-                pilaAFND.push(unionAutomata);
-                this.automata = unionAutomata;
-            } else if (c == '~') {
-                Automata afndVacio = E_AFND();
-                pilaAFND.push(afndVacio);
-                this.automata = afndVacio;
-            } else {
-                Automata afndSimple = AFND1(c);
-                pilaAFND.push(afndSimple);
-                this.automata = afndSimple;
-            }
-        }
-
-        this.automata.crearAlfabeto(expresionRegular);
-        this.automata.setTipo("AFND");
+    public AFND(String ER) {
+        this.ER = ER;
     }
 
     public Automata AFND1(char elemento) {
@@ -218,19 +179,46 @@ public class AFND {
         }
     }
 
+    public void crearAFND() {
+        Stack<Automata> pilaAFND = new Stack<>();
+
+        Automata primerAutomata, kleeneAutomata;
+
+        Automata segundoAutomata;
+        for (int i = 0; i < this.ER.length(); i++) {
+            char c = this.ER.charAt(i);
+            if (c == '*') {
+                kleeneAutomata = kleene(pilaAFND.pop());
+                pilaAFND.push(kleeneAutomata);
+                this.automata = kleeneAutomata;
+            } else if (c == '.') {
+                primerAutomata = pilaAFND.pop();
+                segundoAutomata = pilaAFND.pop();
+                Automata concatenacionAutomata = AFND_CONCATENACION(primerAutomata, segundoAutomata);
+                pilaAFND.push(concatenacionAutomata);
+                this.automata = concatenacionAutomata;
+            } else if (c == '|') {
+                primerAutomata = pilaAFND.pop();
+                segundoAutomata = pilaAFND.pop();
+                Automata unionAutomata = AFND_UNION(primerAutomata, segundoAutomata);
+                pilaAFND.push(unionAutomata);
+                this.automata = unionAutomata;
+            } else if (c == '~') {
+                Automata afndVacio = E_AFND();
+                pilaAFND.push(afndVacio);
+                this.automata = afndVacio;
+            } else {
+                Automata afndSimple = AFND1(c);
+                pilaAFND.push(afndSimple);
+                this.automata = afndSimple;
+            }
+        }
+
+        this.automata.crearAlfabeto(ER);
+        this.automata.setTipo("AFND");
+    }
+
     public Automata getAutomata() {
         return automata;
-    }
-
-    public void setAutomata(Automata automata) {
-        this.automata = automata;
-    }
-
-    public String getExpresionRegular() {
-        return expresionRegular;
-    }
-
-    public void setExpresionRegular(String expresionRegular) {
-        this.expresionRegular = expresionRegular;
     }
 }

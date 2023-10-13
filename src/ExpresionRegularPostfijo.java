@@ -8,13 +8,13 @@ import java.util.Stack;
  * @author Ignacio Urrea
  */
 
-// er a su postfijo
-public class ConvertidorExpresionRegular {
+// ER a su postfijo
+public class ExpresionRegularPostfijo {
 
     // Mapa que almacena los operadores y sus precedencias
     private final Map<Character, Integer> precedenciaOperadores;
 
-    public ConvertidorExpresionRegular() {
+    public ExpresionRegularPostfijo() {
         Map<Character, Integer> mapa = new HashMap<>();
         mapa.put('(', 1);
         mapa.put('|', 2);

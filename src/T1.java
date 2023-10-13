@@ -8,13 +8,13 @@ public class T1 {
     public static void main(String[] args) {
         String ER_recibida = args[0];
         if (args.length == 1) {
-            ConvertidorExpresionRegular convertidorER = new ConvertidorExpresionRegular();
+            ExpresionRegularPostfijo convertidorER = new ExpresionRegularPostfijo();
             ER_recibida = convertidorER.convertir(ER_recibida);
-            AFND algoritmoThomson = new AFND(ER_recibida);
-            algoritmoThomson.crearAFND();
+            AFND thomson = new AFND(ER_recibida);
+            thomson.crearAFND();
             // afnd
-            algoritmoThomson.agregarSignoAlfabetoGeneral();
-            Automata afnd = algoritmoThomson.getAutomata();
+            thomson.agregarSignoAlfabetoGeneral();
+            Automata afnd = thomson.getAutomata();
             System.out.println(afnd);
             AFD afd = new AFD();
             afd.AFNDtoAFD(afnd);

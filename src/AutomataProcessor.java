@@ -4,17 +4,28 @@ import java.util.Iterator;
 import java.util.Stack;
 
 /**
- * @author Juan Nuñez
- * @author Ignacio Urrea
+ * Clase que representa un procesador para un autómata.
  */
 public class AutomataProcessor {
+    // Variables de instancia para el estado inicial y los estados de aceptación.
     Estado estadoInicial;
     ArrayList<Estado> estadosAceptacion;
     HashSet<Estado> conjuntoEstados;
 
+    /**
+     * Constructor por defecto.
+     */
     public AutomataProcessor() {
     }
 
+    /**
+     * Método para realizar la operación move en un conjunto de estados dado un
+     * símbolo.
+     * 
+     * @param estados Conjunto de estados.
+     * @param simbolo Símbolo para realizar la operación move.
+     * @return Conjunto de estados alcanzados por el símbolo.
+     */
     public HashSet<Estado> move(HashSet<Estado> estados, String simbolo) {
         HashSet<Estado> alcanzados = new HashSet();
         Iterator<Estado> iterator = estados.iterator();
@@ -29,6 +40,13 @@ public class AutomataProcessor {
         return alcanzados;
     }
 
+    /**
+     * Método para realizar la operación move en un estado dado un símbolo.
+     * 
+     * @param estado  Estado.
+     * @param simbolo Símbolo para realizar la operación move.
+     * @return Estado alcanzado por el símbolo.
+     */
     public Estado move(Estado estado, String simbolo) {
         ArrayList<Estado> alcanzados = new ArrayList();
 
@@ -44,6 +62,12 @@ public class AutomataProcessor {
         return alcanzados.get(0);
     }
 
+    /**
+     * Método para calcular eClosure de un estado.
+     * 
+     * @param eClosureEstado Estado para calcular eClosure.
+     * @return Conjunto de estados alcanzados por eClosure.
+     */
     public HashSet<Estado> eClosure(Estado eClosureEstado) {
         Stack<Estado> stackClosure = new Stack();
         Estado current = eClosureEstado;
@@ -65,6 +89,13 @@ public class AutomataProcessor {
         return result;
     }
 
+    /**
+     * Método para simular el autómata dado una expresión regular.
+     * 
+     * @param regex    Expresión regular a ser simulada en el autómata.
+     * @param automata Autómata a ser simulado.
+     * @return true si la simulación es exitosa, false de lo contrario.
+     */
     public boolean simular(String regex, Automata automata) {
         estadoInicial = automata.getInicial();
         estadosAceptacion = new ArrayList(automata.getestadosAceptados());
@@ -72,8 +103,12 @@ public class AutomataProcessor {
         int inicioCalce = 0, finCalce = 0, cont = 0;
         boolean anterior = false;
 
+        // Iterar a través de los caracteres de la expresión regular.
         for (Character ch : regex.toCharArray()) {
+            // Verificar si el carácter está en el alfabeto del autómata.
             if (!automata.getAlfabeto().contains(ch.toString())) {
+                // Verificar si los estados actuales son aceptados y si el estado anterior
+                // también lo fue.
                 if (evaluarAceptacion(estadosAceptacion, conjuntoEstados) && anterior) {
                     finCalce = cont - 1;
                     if (inicioCalce <= finCalce)
@@ -85,6 +120,8 @@ public class AutomataProcessor {
                 anterior = false;
             }
             obtenerEstadosAlcanzados(ch);
+            // Verificar si el estado anterior fue aceptado, pero los estados actuales no lo
+            // son y el conjunto está vacío.
             if (anterior && !evaluarAceptacion(estadosAceptacion, conjuntoEstados) && conjuntoEstados.size() == 0) {
                 finCalce = cont - 1;
                 if (inicioCalce <= finCalce)
@@ -94,11 +131,13 @@ public class AutomataProcessor {
                 obtenerEstadosAlcanzados(ch);
                 anterior = false;
             }
+            // Verificar si el conjunto de estados está vacío y reiniciar el automata.
             if (conjuntoEstados.isEmpty()) {
                 inicioCalce = cont;
                 regresarInicioAutomata(automata);
                 obtenerEstadosAlcanzados(ch);
             }
+            // Verificar si los estados actuales son aceptados.
             if (evaluarAceptacion(estadosAceptacion, conjuntoEstados)) {
                 anterior = true;
             }
@@ -106,6 +145,7 @@ public class AutomataProcessor {
             cont++;
         }
 
+        // Verificar si el último conjunto de estados es aceptado.
         if (evaluarAceptacion(estadosAceptacion, conjuntoEstados)) {
             finCalce = cont - 1;
             if (inicioCalce <= finCalce)
@@ -115,6 +155,12 @@ public class AutomataProcessor {
         return true;
     }
 
+    /**
+     * Método para obtener los estados alcanzados por un carácter y calcular
+     * eClosure.
+     * 
+     * @param ch Carácter para realizar la operación move.
+     */
     public void obtenerEstadosAlcanzados(Character ch) {
         conjuntoEstados = move(conjuntoEstados, ch.toString());
         HashSet<Estado> temp = new HashSet();
@@ -127,11 +173,25 @@ public class AutomataProcessor {
         conjuntoEstados = temp;
     }
 
+    /**
+     * Método para regresar al estado inicial del autómata y calcular su eClosure.
+     * 
+     * @param automata Autómata a ser reiniciado.
+     */
     public void regresarInicioAutomata(Automata automata) {
         estadoInicial = automata.getInicial();
         conjuntoEstados = eClosure(estadoInicial);
     }
 
+    /**
+     * Método para evaluar si algún estado de aceptación está en el conjunto de
+     * estados dados.
+     * 
+     * @param aceptacion Lista de estados de aceptación.
+     * @param conjunto   Conjunto de estados dados.
+     * @return true si algún estado de aceptación está presente en el conjunto,
+     *         false de lo contrario.
+     */
     public boolean evaluarAceptacion(ArrayList<Estado> aceptacion, HashSet<Estado> conjunto) {
         boolean res = false;
 
