@@ -2,12 +2,11 @@
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
-
-public class T1 {
+public class tarea1 {
 
     public static void main(String[] args) {
-        String ER_recibida = args[0];
         if (args.length == 1) {
+            String ER_recibida = args[0];
             ExpresionRegularPostfijo convertidorER = new ExpresionRegularPostfijo();
             ER_recibida = convertidorER.convertir(ER_recibida);
             AFND thomson = new AFND(ER_recibida);
