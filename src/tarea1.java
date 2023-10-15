@@ -10,7 +10,7 @@ public class tarea1 {
         System.out.println("INGRESA LA ER A CONVERTIR: ");
         Scanner sc = new Scanner(System.in);
         String ER = sc.nextLine();
-        if (ER.length() > 1) {
+        if (ER.length() > 0) {
             ExpresionRegularPostfijo convertidorER = new ExpresionRegularPostfijo();
             ER = convertidorER.convertir(ER);
             AFND thomson = new AFND(ER);
