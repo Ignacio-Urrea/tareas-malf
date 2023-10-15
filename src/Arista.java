@@ -3,6 +3,7 @@
  * @author Ignacio Urrea
  */
 
+// representa una union entre estados
 public class Arista {
     String caracter;
     Estado inicio;

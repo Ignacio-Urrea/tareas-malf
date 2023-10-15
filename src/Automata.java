@@ -49,22 +49,28 @@ public class Automata {
         this.estados.add(estado);
     }
 
+    // para imprimir el resultado final
     @Override
     public String toString() {
         String res = new String();
         res += "\r\n";
-        res += "" + this.type + " =\r\n";
-        res += "K = ";
+        if (this.type == "AFD") {
+            res += "-----------------------------";
+            res += "\r\n";
+        }
+        res += "" + this.type + ":\r\n";
+        res += "K={";
         for (int i = 0; i < this.estados.size(); i++) {
             if (i == this.estados.size() - 1) {
                 res += "q" + this.estados.get(i);
             } else {
                 res += "q" + this.estados.get(i) + ",";
             }
-        }
-        res += "\r\n";
 
-        res += "sigma = ";
+        }
+        res += "}\r\n";
+
+        res += "Sigma={";
         for (int i = 0; i < this.alfabeto.toArray().length; i++) {
             if (i == this.alfabeto.toArray().length - 1) {
                 res += this.alfabeto.toArray()[i];
@@ -72,33 +78,29 @@ public class Automata {
                 res += this.alfabeto.toArray()[i] + ",";
             }
         }
-        res += "\r\n";
-        res += "s = q" + this.inicio + "\r\n";
-        res += "F = ";
+        res += "}\r\n";
+        res += "s={q" + this.inicio + "}\r\n";
+        res += "F={";
         for (int i = 0; i < this.estadosAceptados.size(); i++) {
             if (i == this.estadosAceptados.size() - 1) {
                 res += "q" + this.estadosAceptados.get(i);
             } else {
                 res += "q" + this.estadosAceptados.get(i) + ",";
             }
+
         }
-        res += "\r\n";
+        res += "}\r\n";
         res += "\r\n";
 
-        res += "Delta: \r\n";
+        res += "Delta: {\r\n";
         for (int i = 0; i < this.estados.size(); i++) {
             Estado est = estados.get(i);
-            // System.out.println("aristas");
             for (int j = 0; j < est.getAristas().size(); j++) {
-                Arista arista = est.getAristas().get(j);
-                if (!(arista.getInicio().equals(inicio) && arista.getFin().equals(inicio)
-                        && arista.getCaracter().equals("#"))) {
-                    res += arista.getInicio() + " " + arista.getCaracter() + " " + arista.getFin() + "\r\n";
-                }
+                res += est.getAristas().get(j) + "\r\n";
             }
-        }
 
-        res += "\r\n";
+        }
+        res += "}\r\n";
         return res;
     }
 

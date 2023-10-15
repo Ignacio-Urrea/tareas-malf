@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 
-//representa un estado en un autómata con su identificador y su lista de aristas
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
+// representa un estado en un autómata con su identificador y su lista de
+// aristas
 public class Estado {
     private int id;
     private ArrayList<Arista> aristas = new ArrayList();

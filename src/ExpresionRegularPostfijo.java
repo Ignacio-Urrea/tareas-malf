@@ -15,12 +15,12 @@ public class ExpresionRegularPostfijo {
     private final Map<Character, Integer> precedenciaOperadores;
 
     public ExpresionRegularPostfijo() {
-        Map<Character, Integer> mapa = new HashMap<>();
-        mapa.put('(', 1);
-        mapa.put('|', 2);
-        mapa.put('.', 3);
-        mapa.put('*', 4);
-        precedenciaOperadores = Collections.unmodifiableMap(mapa);
+        Map<Character, Integer> op = new HashMap<>();
+        op.put('(', 1);
+        op.put('|', 2);
+        op.put('.', 3);
+        op.put('*', 4);
+        precedenciaOperadores = Collections.unmodifiableMap(op);
     }
 
     public String convertir(String expresion) {
@@ -28,32 +28,27 @@ public class ExpresionRegularPostfijo {
         Stack<Character> pila = new Stack<>();
 
         for (Character c : expresion.toCharArray()) {
-            switch (c) {
-                case '(':
-                    pila.push(c);
-                    break;
-                case ')':
-                    while (!pila.peek().equals('(')) {
+            if (c.equals('(')) {
+                pila.push(c);
+            } else if (c.equals(')')) {
+                while (!pila.peek().equals('(')) {
+                    posfija += pila.pop();
+                }
+                pila.pop();
+            } else {
+                while (!pila.isEmpty()) {
+                    Character caracterEnCima = pila.peek();
+                    Integer precedenciaCaracterEnCima = obtenerPrecedencia(caracterEnCima);
+                    Integer precedenciaCaracterActual = obtenerPrecedencia(c);
+                    if (precedenciaCaracterEnCima >= precedenciaCaracterActual) {
                         posfija += pila.pop();
+                    } else {
+                        break;
                     }
-                    pila.pop();
-                    break;
-                default:
-                    while (!pila.isEmpty()) {
-                        Character caracterEnCima = pila.peek();
-                        Integer precedenciaCaracterEnCima = obtenerPrecedencia(caracterEnCima);
-                        Integer precedenciaCaracterActual = obtenerPrecedencia(c);
-                        if (precedenciaCaracterEnCima >= precedenciaCaracterActual) {
-                            posfija += pila.pop();
-                        } else {
-                            break;
-                        }
-                    }
-                    pila.push(c);
-                    break;
+                }
+                pila.push(c);
             }
         }
-
         while (!pila.isEmpty()) {
             posfija += pila.pop();
         }

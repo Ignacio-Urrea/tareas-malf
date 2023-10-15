@@ -6,6 +6,7 @@ import java.util.Stack;
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
+
 public class AFND {
     private Automata automata;
     private String ER;
@@ -163,20 +164,6 @@ public class AFND {
         }
         kleeneAutomata.setAlfabeto(afnd.getAlfabeto());
         return kleeneAutomata;
-    }
-
-    public void agregarSignoAlfabetoGeneral() {
-        Stack<Arista> transiciones = new Stack<>();
-        for (int i = automata.getInicial().getAristas().size() - 1; i >= 0; i--) {
-            transiciones.push(automata.getInicial().getAristas().remove(i));
-        }
-
-        Arista tran = new Arista(automata.getInicial(), automata.getInicial(), "#");
-        automata.getInicial().addAristas(tran);
-
-        while (!transiciones.isEmpty()) {
-            automata.getInicial().addAristas(transiciones.pop());
-        }
     }
 
     public void crearAFND() {

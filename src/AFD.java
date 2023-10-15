@@ -9,11 +9,12 @@ import java.util.Stack;
  * @author Juan Nuñez
  * @author Ignacio Urrea
  */
+
 public class AFD {
-    Automata automataDeterministico;
+    Automata automata;
 
     public AFD() {
-        this.automataDeterministico = new Automata();
+        this.automata = new Automata();
     }
 
     public void AFNDtoAFD(Automata afnd) {
@@ -68,28 +69,9 @@ public class AFD {
             indexEstadoInicio++;
         }
 
-        this.automataDeterministico = automata;
+        this.automata = automata;
         definirAlfabeto(afnd);
-        this.automataDeterministico.setTipo("AFD");
-    }
-
-    public void agregarSignoAlfabetoGeneral() {
-        Stack<Arista> transiciones = new Stack();
-        for (int i = automataDeterministico.getInicial().getAristas().size() - 1; i >= 0; i--) {
-            Arista arista = automataDeterministico.getInicial().getAristas().get(i);
-            if (!(arista.getInicio().equals(automataDeterministico.getInicial()) &&
-                    arista.getFin().equals(automataDeterministico.getInicial()) &&
-                    arista.getCaracter().equals("#"))) {
-                transiciones.push(automataDeterministico.getInicial().getAristas().remove(i));
-            }
-        }
-
-        Arista tran = new Arista(automataDeterministico.getInicial(), automataDeterministico.getInicial(), "#");
-        automataDeterministico.getInicial().addAristas(tran);
-
-        while (!transiciones.isEmpty()) {
-            automataDeterministico.getInicial().addAristas(transiciones.pop());
-        }
+        this.automata.setTipo("AFD");
     }
 
     public HashSet<Estado> move(HashSet<Estado> estados, String simbolo) {
@@ -106,12 +88,6 @@ public class AFD {
         return alcanzados;
     }
 
-    /**
-     * Método para calcular eClosure de un estado.
-     * 
-     * @param eClosureEstado Estado para calcular eClosure.
-     * @return Conjunto de estados alcanzados por eClosure.
-     */
     public HashSet<Estado> eClosure(Estado eClosureEstado) {
         Stack<Estado> stackClosure = new Stack();
         Estado current = eClosureEstado;
@@ -134,10 +110,10 @@ public class AFD {
     }
 
     private void definirAlfabeto(Automata afn) {
-        this.automataDeterministico.setAlfabeto(afn.getAlfabeto());
+        this.automata.setAlfabeto(afn.getAlfabeto());
     }
 
     public Automata getAutomataDeterministico() {
-        return automataDeterministico;
+        return automata;
     }
 }
