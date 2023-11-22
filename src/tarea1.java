@@ -1,9 +1,7 @@
+// Modifica la clase tarea1 para incluir la conversión de AFND a GLC
+
 import java.util.Scanner;
 
-/**
- * @author Juan Nuñez
- * @author Ignacio Urrea
- */
 public class tarea1 {
 
     public static void main(String[] args) {
@@ -16,16 +14,16 @@ public class tarea1 {
             AFND thomson = new AFND(ER);
             thomson.crearAFND();
             Automata afnd = thomson.getAutomata();
+            System.out.println("AFND:");
             System.out.println(afnd);
-            AFD afd = new AFD();
-            afd.AFNDtoAFD(afnd);
-            Automata afd_res = afd.getAutomataDeterministico();
-            System.out.println(afd_res);
-        }
 
-        else {
-            System.out.println("debes entregar una expresion regular !!");
+            // Conversión de AFND a GLC
+            AFNDtoGLCConverter afndToGLCConverter = new AFNDtoGLCConverter();
+            GramaticaLibreContexto glc = afndToGLCConverter.convertirAFNDtoGLC(afnd);
+            System.out.println("Gramática Libre de Contexto resultante:");
+            System.out.println(glc);
+        } else {
+            System.out.println("Debes entregar una expresión regular!!");
         }
     }
-
 }
