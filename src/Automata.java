@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Juan Nuñez
@@ -114,6 +115,10 @@ public class Automata {
 
     public HashSet getAlfabeto() {
         return alfabeto;
+    }
+
+    public Set<String> getAlfabetoSet() {
+        return new HashSet<>(alfabeto);
     }
 
     public void crearAlfabeto(String regex) {
