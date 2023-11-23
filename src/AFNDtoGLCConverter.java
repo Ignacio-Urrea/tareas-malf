@@ -1,5 +1,3 @@
-
-// AFNDtoGLCConverter.java
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +18,15 @@ class AFNDtoGLCConverter {
                 String noTerminalInicio = estadoToNoTerminal.get(estado);
                 String noTerminalDestino = estadoToNoTerminal.get(estadoDestino);
 
-                // Agrega reglas a la gramática
-                glc.agregarRegla(noTerminalInicio, simboloEntrada, noTerminalDestino);
+                // Elimina el "_" si existe en el símbolo de entrada
+                if (simboloEntrada.equals("_")) {
+                    glc.agregarRegla(noTerminalInicio, "", noTerminalDestino);
+                } else if (simboloEntrada.equals("?")) {
+                    // Cambia la regla "A3 -> ? A6" por "A3 -> A6"
+                    glc.agregarRegla(noTerminalInicio, "", noTerminalDestino);
+                } else {
+                    glc.agregarRegla(noTerminalInicio, simboloEntrada, noTerminalDestino);
+                }
             }
         }
 
@@ -31,6 +36,7 @@ class AFNDtoGLCConverter {
 
         for (Estado estadoAceptado : afnd.getestadosAceptados()) {
             String noTerminalAceptado = estadoToNoTerminal.get(estadoAceptado);
+            // Elimina el "_" si existe en el símbolo de aceptación
             glc.agregarRegla(noTerminalAceptado, "", "");
         }
 

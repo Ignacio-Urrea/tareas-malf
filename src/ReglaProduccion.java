@@ -1,4 +1,3 @@
-
 // ReglaProduccion.java
 class ReglaProduccion {
     private String izquierda;
@@ -11,8 +10,9 @@ class ReglaProduccion {
         this.siguiente = siguiente;
     }
 
+    // yeahh
     @Override
     public String toString() {
-        return izquierda + " -> " + (derecha.isEmpty() ? "ε" : derecha) + " " + siguiente;
+        return "(" + izquierda + ", " + (derecha.isEmpty() ? "ε" : derecha) + ", " + siguiente + ")";
     }
 }

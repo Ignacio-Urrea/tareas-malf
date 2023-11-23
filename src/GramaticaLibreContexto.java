@@ -35,10 +35,10 @@ class GramaticaLibreContexto {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("Símbolo Inicial: ").append(simboloInicial).append("\n");
-        stringBuilder.append("No Terminales: ").append(noTerminales).append("\n");
-        stringBuilder.append("Terminales: ").append(terminales).append("\n");
-        stringBuilder.append("Reglas de Producción:\n");
+        stringBuilder.append("S= ").append(simboloInicial).append("\n");
+        stringBuilder.append("V= ").append(noTerminales).append("\n");
+        stringBuilder.append("Sigma= ").append(terminales).append("\n");
+        stringBuilder.append("R =\n");
 
         for (ReglaProduccion regla : reglasProduccion) {
             stringBuilder.append(regla).append("\n");
