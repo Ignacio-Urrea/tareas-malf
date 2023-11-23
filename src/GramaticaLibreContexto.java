@@ -1,5 +1,3 @@
-
-// GramaticaLibreContexto.java
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +13,42 @@ class GramaticaLibreContexto {
         this.reglasProduccion = new HashSet<>();
     }
 
+    // Getters
+    public String getSimboloInicial() {
+        return simboloInicial;
+    }
+
+    public Set<String> getNoTerminales() {
+        return noTerminales;
+    }
+
+    public Set<String> getTerminales() {
+        return terminales;
+    }
+
+    public Set<ReglaProduccion> getReglasProduccion() {
+        return reglasProduccion;
+    }
+
+    // Setters
     public void setSimboloInicial(String simboloInicial) {
         this.simboloInicial = simboloInicial;
         this.noTerminales.add(simboloInicial);
     }
 
+    public void setNoTerminales(Set<String> noTerminales) {
+        this.noTerminales = noTerminales;
+    }
+
+    public void setTerminales(Set<String> terminales) {
+        this.terminales = terminales;
+    }
+
+    public void setReglasProduccion(Set<ReglaProduccion> reglasProduccion) {
+        this.reglasProduccion = reglasProduccion;
+    }
+
+    // Otros métodos
     public void agregarRegla(String izquierda, String derecha, String siguiente) {
         this.noTerminales.add(izquierda);
         this.noTerminales.add(siguiente);

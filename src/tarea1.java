@@ -23,6 +23,12 @@ public class tarea1 {
             System.out.println("Gramática Libre de Contexto resultante:");
 
             System.out.println(glc);
+            // Conversión de GLC a AP
+
+            GLCtoAPConverter glcToAPConverter = new GLCtoAPConverter();
+            AutomataPila ap = glcToAPConverter.convertirGLCaAP(glc);
+            // System.out.println("Autómata de Pila resultante:");
+            // System.out.println(ap);
 
         } else {
             System.out.println("Debes entregar una expresión regular!!");
