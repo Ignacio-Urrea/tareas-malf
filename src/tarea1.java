@@ -24,6 +24,11 @@ public class tarea1 {
 
             System.out.println(glc);
 
+            GLCtoAPConverter glcToAPConverter = new GLCtoAPConverter();
+            AutomataPila ap = glcToAPConverter.convertirGLCaAP(glc);
+            System.out.println("AP M:");
+            System.out.println(ap);
+
         } else {
             System.out.println("Debes entregar una expresión regular!!");
         }

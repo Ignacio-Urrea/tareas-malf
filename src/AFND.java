@@ -17,15 +17,20 @@ public class AFND {
 
     public Automata AFND1(char elemento) {
         Automata automataAux = new Automata();
+
+        // Modifica la creación de estados aquí
         Estado inicio = new Estado(0);
         Estado fin = new Estado(1);
-        Arista tran = new Arista(inicio, fin, String.valueOf(elemento));
-        inicio.addAristas(tran);
+
         automataAux.addEstados(inicio);
         automataAux.addEstados(fin);
 
+        Arista tran = new Arista(inicio, fin, String.valueOf(elemento));
+        inicio.addAristas(tran);
+
         automataAux.setInicial(inicio);
         automataAux.addestadosAceptados(fin);
+
         return automataAux;
     }
 
@@ -44,8 +49,9 @@ public class AFND {
         Automata unionAutomata = new Automata();
         Estado inicio = new Estado(0);
 
-        Arista tran = new Arista(inicio, segundoAutomata.getInicial(), "_");
-
+        // Agrega la transición desde el nuevo estado inicial al inicial del primer
+        // automata
+        Arista tran = new Arista(inicio, primerAutomata.getInicial(), "_");
         inicio.addAristas(tran);
 
         unionAutomata.addEstados(inicio);

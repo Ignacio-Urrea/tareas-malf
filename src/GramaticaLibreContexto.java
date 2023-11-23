@@ -15,9 +15,37 @@ class GramaticaLibreContexto {
         this.reglasProduccion = new HashSet<>();
     }
 
+    public String getSimboloInicial() {
+        return simboloInicial;
+    }
+
     public void setSimboloInicial(String simboloInicial) {
         this.simboloInicial = simboloInicial;
         this.noTerminales.add(simboloInicial);
+    }
+
+    public Set<String> getNoTerminales() {
+        return noTerminales;
+    }
+
+    public void setNoTerminales(Set<String> noTerminales) {
+        this.noTerminales = noTerminales;
+    }
+
+    public Set<String> getTerminales() {
+        return terminales;
+    }
+
+    public void setTerminales(Set<String> terminales) {
+        this.terminales = terminales;
+    }
+
+    public Set<ReglaProduccion> getReglasProduccion() {
+        return reglasProduccion;
+    }
+
+    public void setReglasProduccion(Set<ReglaProduccion> reglasProduccion) {
+        this.reglasProduccion = reglasProduccion;
     }
 
     public void agregarRegla(String izquierda, String derecha, String siguiente) {
@@ -35,9 +63,9 @@ class GramaticaLibreContexto {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("S= ").append(simboloInicial).append("\n");
-        stringBuilder.append("V= ").append(noTerminales).append("\n");
-        stringBuilder.append("Sigma= ").append(terminales).append("\n");
+        stringBuilder.append("S = ").append(simboloInicial).append("\n");
+        stringBuilder.append("V = ").append(noTerminales).append("\n");
+        stringBuilder.append("Sigma = ").append(terminales).append("\n");
         stringBuilder.append("R =\n");
 
         for (ReglaProduccion regla : reglasProduccion) {
