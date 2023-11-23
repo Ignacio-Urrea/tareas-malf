@@ -14,14 +14,16 @@ public class tarea1 {
             AFND thomson = new AFND(ER);
             thomson.crearAFND();
             Automata afnd = thomson.getAutomata();
-            System.out.println("AFND:");
-            System.out.println(afnd);
+            // System.out.println("AFND:");
+            // System.out.println(afnd);
 
             // Conversión de AFND a GLC
             AFNDtoGLCConverter afndToGLCConverter = new AFNDtoGLCConverter();
             GramaticaLibreContexto glc = afndToGLCConverter.convertirAFNDtoGLC(afnd);
             System.out.println("Gramática Libre de Contexto resultante:");
+
             System.out.println(glc);
+
         } else {
             System.out.println("Debes entregar una expresión regular!!");
         }
