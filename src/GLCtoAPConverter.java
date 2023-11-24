@@ -56,7 +56,7 @@ public class GLCtoAPConverter {
         ap.setTransiciones(transiciones);
 
         // Mostrar la estructura deseada
-        System.out.println("AP M:");
+        System.out.println("AUTOMATA DE PILA:");
         System.out.println("K=" + ap.getEstados());
         System.out.println("Sigma=" + ap.getAlfabeto());
         System.out.println("Gamma=" + ap.getGamma());

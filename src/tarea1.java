@@ -20,7 +20,7 @@ public class tarea1 {
             // Conversión de AFND a GLC
             AFNDtoGLCConverter afndToGLCConverter = new AFNDtoGLCConverter();
             GramaticaLibreContexto glc = afndToGLCConverter.convertirAFNDtoGLC(afnd);
-            System.out.println("Gramática Libre de Contexto resultante:");
+            System.out.println("GRAMATICA LIBRE DE CONTEXTO");
 
             System.out.println(glc);
             // Conversión de GLC a AP
