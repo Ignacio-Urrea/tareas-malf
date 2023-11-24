@@ -1,6 +1,11 @@
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 class GramaticaLibreContexto {
     private String simboloInicial;
     private Set<String> noTerminales;

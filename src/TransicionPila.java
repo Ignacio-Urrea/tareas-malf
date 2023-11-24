@@ -1,3 +1,8 @@
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class TransicionPila {
     private String estadoOrigen;
     private String simboloEntrada;

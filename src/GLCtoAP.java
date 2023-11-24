@@ -3,7 +3,12 @@ import java.util.HashSet;
 import java.util.Collections;
 import java.util.Stack;
 
-public class GLCtoAPConverter {
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
+public class GLCtoAP {
 
     public AutomataPila convertirGLCaAP(GramaticaLibreContexto glc) {
         AutomataPila ap = new AutomataPila();
@@ -11,30 +16,35 @@ public class GLCtoAPConverter {
 
         // Establecer alfabeto de entrada y pila
         ap.setAlfabeto(new HashSet<>(glc.getTerminales()));
-        ap.setGamma(new HashSet<>(Collections.singletonList("<S0>"))); // Pila inicializada con epsilon
+
+        // Inicializar Gamma con <S0> y los caracteres de la GLC
+        HashSet<String> gammaInicial = new HashSet<>();
+        gammaInicial.add("<S0>");
+        for (ReglaProduccion regla : glc.getReglasProduccion()) {
+            if (regla.getDerecha().length() == 1) {
+                gammaInicial.add(regla.getDerecha());
+            }
+        }
+        ap.setGamma(gammaInicial);
 
         // Agregar estados
         ap.setEstados(new HashSet<>(glc.getNoTerminales()));
 
-        // Establecer estado inicial y estados de aceptación
         ap.setEstadoInicial(glc.getSimboloInicial());
-        ap.setEstadosAceptacion(new HashSet<>(Collections.singletonList("A2"))); // Cambiado el estado de aceptación
+        ap.setEstadosAceptacion(obtenerEstadosFinales(glc));
 
         // Construir transiciones
         ArrayList<TransicionPila> transiciones = new ArrayList<>();
 
         // Transición para el estado inicial
-        transiciones.add(new TransicionPila("A1", "", "_", "A2", new String[] { "<S0>" })); // Cambiada la transición
-                                                                                            // inicial
+        transiciones.add(new TransicionPila("A1", "", "<S0>", "A2", new String[] { "<S0>" }));
 
         for (ReglaProduccion regla : glc.getReglasProduccion()) {
             String estadoOrigen = regla.getIzquierda();
             String simboloEntrada = regla.getDerecha();
-            String simboloPilaLeer = "_"; // Para esta implementación básica, siempre leemos de la pila epsilon
+            String simboloPilaLeer = "<S0>"; // Cambiado para leer de la pila
             String estadoDestino = regla.getSiguiente();
 
-            // Para escribir en la pila, consideraremos cada símbolo de la cadena de salida
-            // de la regla
             String[] simbolosPilaEscribir = new String[simboloEntrada.length() + 1]; // Ajuste aquí
             for (int i = 0; i < simboloEntrada.length(); i++) {
                 simbolosPilaEscribir[i] = String.valueOf(simboloEntrada.charAt(i));
@@ -47,8 +57,7 @@ public class GLCtoAPConverter {
 
         ap.setTransiciones(transiciones);
 
-        // Mostrar la estructura deseada
-        System.out.println("AP M:");
+        System.out.println("AUTOMATA DE PILA:");
         System.out.println("K=" + ap.getEstados());
         System.out.println("Sigma=" + ap.getAlfabeto());
         System.out.println("Gamma=" + ap.getGamma());
@@ -57,6 +66,26 @@ public class GLCtoAPConverter {
         System.out.println("F=" + ap.getEstadosAceptacion());
 
         return ap;
+    }
+
+    private HashSet<String> obtenerEstadosFinales(GramaticaLibreContexto glc) {
+        HashSet<String> estadosFinales = new HashSet<>();
+        int maxEstado = 0;
+
+        for (ReglaProduccion regla : glc.getReglasProduccion()) {
+            if (regla.getSiguiente() != null && !regla.getSiguiente().isEmpty()) {
+                try {
+                    int estado = Integer.parseInt(regla.getSiguiente().substring(1)); // Obtener el número del estado
+                    maxEstado = Math.max(maxEstado, estado);
+                } catch (NumberFormatException e) {
+                    // Manejar el caso en el que el formato del estado no sea el esperado
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        estadosFinales.add("A" + maxEstado); // Agregar el estado más alto
+        return estadosFinales;
     }
 
     private String formatTransiciones(ArrayList<TransicionPila> transiciones) {

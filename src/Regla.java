@@ -1,5 +1,10 @@
 import java.util.Objects;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class Regla {
     private String noTerminalInicio;
     private String simboloEntrada;
@@ -10,8 +15,6 @@ public class Regla {
         this.simboloEntrada = simboloEntrada;
         this.noTerminalDestino = noTerminalDestino;
     }
-
-    // Agrega getters si es necesario
 
     @Override
     public boolean equals(Object obj) {
