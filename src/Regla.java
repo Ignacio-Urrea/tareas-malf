@@ -16,8 +16,6 @@ public class Regla {
         this.noTerminalDestino = noTerminalDestino;
     }
 
-    // Agrega getters si es necesario
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

@@ -30,7 +30,6 @@ public class GLCtoAPConverter {
         // Agregar estados
         ap.setEstados(new HashSet<>(glc.getNoTerminales()));
 
-        // Establecer estado inicial y estados de aceptación
         ap.setEstadoInicial(glc.getSimboloInicial());
         ap.setEstadosAceptacion(obtenerEstadosFinales(glc));
 
@@ -46,8 +45,6 @@ public class GLCtoAPConverter {
             String simboloPilaLeer = "<S0>"; // Cambiado para leer de la pila
             String estadoDestino = regla.getSiguiente();
 
-            // Para escribir en la pila, consideraremos cada símbolo de la cadena de salida
-            // de la regla
             String[] simbolosPilaEscribir = new String[simboloEntrada.length() + 1]; // Ajuste aquí
             for (int i = 0; i < simboloEntrada.length(); i++) {
                 simbolosPilaEscribir[i] = String.valueOf(simboloEntrada.charAt(i));
@@ -60,7 +57,6 @@ public class GLCtoAPConverter {
 
         ap.setTransiciones(transiciones);
 
-        // Mostrar la estructura deseada
         System.out.println("AUTOMATA DE PILA:");
         System.out.println("K=" + ap.getEstados());
         System.out.println("Sigma=" + ap.getAlfabeto());
