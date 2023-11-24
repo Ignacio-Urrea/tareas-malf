@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @author Ignacio Urrea
  */
 
-public class tarea1 {
+public class tarea2 {
 
     public static void main(String[] args) {
         System.out.println("INGRESA LA ER A CONVERTIR: ");
@@ -22,7 +22,7 @@ public class tarea1 {
             // System.out.println("AFND:");
             // System.out.println(afnd);
 
-            // Conversión de AFND a GLC
+            // Conversión de AFND a GLCP
             AFNDtoGLC afndToGLCConverter = new AFNDtoGLC();
             GramaticaLibreContexto glc = afndToGLCConverter.convertirAFNDtoGLC(afnd);
             System.out.println("GRAMATICA LIBRE DE CONTEXTO");
