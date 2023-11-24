@@ -1,6 +1,11 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 class AFNDtoGLCConverter {
     private static int estadoCounter = 1;
 

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class AutomataPila {
     private HashSet<String> estados;
     private HashSet<String> alfabeto;

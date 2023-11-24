@@ -1,5 +1,10 @@
 import java.util.Objects;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class Regla {
     private String noTerminalInicio;
     private String simboloEntrada;

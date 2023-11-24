@@ -3,6 +3,11 @@ import java.util.HashSet;
 import java.util.Collections;
 import java.util.Stack;
 
+/**
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class GLCtoAPConverter {
 
     public AutomataPila convertirGLCaAP(GramaticaLibreContexto glc) {

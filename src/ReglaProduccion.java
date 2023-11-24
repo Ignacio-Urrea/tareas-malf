@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Juan Nuñez
+ * @author Ignacio Urrea
+ */
+
 public class ReglaProduccion {
     private String izquierda;
     private String derecha;
