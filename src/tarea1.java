@@ -23,14 +23,14 @@ public class tarea1 {
             // System.out.println(afnd);
 
             // Conversión de AFND a GLC
-            AFNDtoGLCConverter afndToGLCConverter = new AFNDtoGLCConverter();
+            AFNDtoGLC afndToGLCConverter = new AFNDtoGLC();
             GramaticaLibreContexto glc = afndToGLCConverter.convertirAFNDtoGLC(afnd);
             System.out.println("GRAMATICA LIBRE DE CONTEXTO");
 
             System.out.println(glc);
             // Conversión de GLC a AP
 
-            GLCtoAPConverter glcToAPConverter = new GLCtoAPConverter();
+            GLCtoAP glcToAPConverter = new GLCtoAP();
             AutomataPila ap = glcToAPConverter.convertirGLCaAP(glc);
             // System.out.println("Autómata de Pila resultante:");
             // System.out.println(ap);

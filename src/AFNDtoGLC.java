@@ -6,7 +6,7 @@ import java.util.Map;
  * @author Ignacio Urrea
  */
 
-class AFNDtoGLCConverter {
+class AFNDtoGLC {
     private static int estadoCounter = 1;
 
     public GramaticaLibreContexto convertirAFNDtoGLC(Automata afnd) {

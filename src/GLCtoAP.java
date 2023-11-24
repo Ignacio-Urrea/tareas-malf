@@ -8,7 +8,7 @@ import java.util.Stack;
  * @author Ignacio Urrea
  */
 
-public class GLCtoAPConverter {
+public class GLCtoAP {
 
     public AutomataPila convertirGLCaAP(GramaticaLibreContexto glc) {
         AutomataPila ap = new AutomataPila();
